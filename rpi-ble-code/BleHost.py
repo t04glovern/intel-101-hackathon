@@ -23,7 +23,7 @@ class bleHost(threading.Thread):
         self.addrType = addrType
 
         # replace the uuid here
-        self.srv_uuid  = '6e400001-b5a3-f393-e0a9-e50e24dcca9e' # server uuid
+        self.srv_uuid  = '19B10000-E8F2-537E-4F6C-D104768A1214' # server uuid
         self.sDelegate = sensorDelegate(self.deviceId)
 
     def run(self):
