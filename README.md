@@ -1,5 +1,5 @@
 ## Intel Hacks 2017 - Hackathon
-[https://intelhacks.devpost.com]
+https://intelhacks.devpost.com
 
 ### References
 
