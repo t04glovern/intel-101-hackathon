@@ -4,9 +4,11 @@ import binascii
 import struct
 
 print "Connecting..."
+# This mac address is the one used by the Arduino 101
 dev = btle.Peripheral("98:4F:EE:0D:02:84")
 
 print "Services..."
+# Prints all the services available for the Arduino 101
 for svc in dev.services:
 	print str(svc)
 
