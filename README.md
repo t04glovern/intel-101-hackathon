@@ -13,6 +13,10 @@
 
 ### Bluetooth
 
+* Simple Explaination of BLE and GATT - https://www.codeproject.com/Articles/1156242/Arduino-Bluetooth-Low-Energy
+
+![Central and Peripheral Devices](https://www.codeproject.com/KB/showcase/1156242/central-and-peripheral-device-communication..png)
+
 * Specifications - https://www.bluetooth.com/specifications/protocol-specifications
 * Bluetooth LE to RPi wiki - http://www.elinux.org/RPi_Bluetooth_LE
 
