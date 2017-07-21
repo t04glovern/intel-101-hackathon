@@ -4,6 +4,13 @@
 
 * Hackathon page - https://intelhacks.devpost.com
 
+### Intel & Curie
+
+* Intel XDK Getting started - https://software.intel.com/en-us/xdk/docs/intel-xdk-guided-tutorial
+* Intel XDK Samples - https://github.com/gomobile/
+* Intel Pattern Matching - https://github.com/01org/Intel-Pattern-Matching-Technology
+* Neural Network with MNIST - https://create.arduino.cc/projecthub/marcusob/the-intel-arduino-101-hardware-neural-network-with-mnist-0e2159
+
 ### Bluetooth
 
 * Specifications - https://www.bluetooth.com/specifications/protocol-specifications
