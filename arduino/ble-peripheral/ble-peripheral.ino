@@ -29,7 +29,6 @@ BLEService arduinoSensorService("2571bb9c-3516-4399-94d4-7b531e97100c");
     > Properties (BLERead, BLENotify, BLEWrite)
     > Max Byte Length (Max allowed 20 bytes)
 */
-BLECharacteristic identifier("8e3034a6-e53a-41f6-8d38-ac5f4ce185db", BLERead , 15);
 BLECharacteristic timestamp("b43521f5-16ec-4936-849c-6c218e7bdab5", BLERead | BLENotify | BLEWrite, 20);
 BLECharacteristic data_point_1("beb203a6-bdc3-4111-9569-b2a3aa121f00", BLERead, 5);
 BLECharacteristic data_point_2("0d41699d-cae3-41d4-8504-86fd0072b31a", BLERead , 5 );
@@ -56,7 +55,7 @@ String dev_id = "arduino-node-01";
 void setup() {
 
   // Initialze serial port for debugging communications
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Starting " + dev_id + " communications");
 
   // Set data pin modes
@@ -73,7 +72,6 @@ void setup() {
   blePeripheral.addAttribute(arduinoSensorService);
 
   // BLE Characteristics for this service
-  blePeripheral.addAttribute(identifier);
   blePeripheral.addAttribute(timestamp);
   blePeripheral.addAttribute(data_point_1);
   blePeripheral.addAttribute(data_point_2);
@@ -114,9 +112,6 @@ void loop() {
 
 void readSensors() {
 
-  // Get Identifier
-  getIdentifier();
-
   // Set/Get DateTime
   getTimestamp();
 
@@ -140,12 +135,6 @@ void print2digits(int number) {
     Serial.write('0');
   }
   Serial.print(number);
-}
-
-void getIdentifier() {
-  char charArray[15];
-  dev_id.toCharArray(charArray, 50);
-  identifier.setValue(charArray);
 }
 
 void getTimestamp() {
