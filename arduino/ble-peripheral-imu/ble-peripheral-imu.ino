@@ -1,41 +1,15 @@
-/*
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-
-*/
-
-/*
-   This sketch example demonstrates how to collect Inertial
-   Measurement Unit(IMU) accelerometer and gyroscope data and then
-   transmit that data using the on board Bluetooth Low Energ(BLE)
-   capability of the Arduino/Genuino 101.
-
-   This sketch is based on the IMU acceleromter and gyroscope examples
-   sketches found at: https://www.arduino.cc/en/Reference/CurieIMU
-
-
-*/
-
+/**
+ * Include Libraries
+ */
 #include "CurieIMU.h"
 #include <CurieBLE.h>
 
 
 /**
-  BLE Initialization Code
-
-*/
-BLEPeripheral blePeripheral;       // BLE Peripheral Device (the board you're programming)
+ * BLE Peripheral Initialization Code
+ * - this is the board we are using -
+ */
+BLEPeripheral blePeripheral;
 
 /**
     Inertial Measurement Unit(IMU) Service - somewhat surprisely I could not find a standard IMU
