@@ -64,7 +64,7 @@ BLEService imuService("917649A0-D98E-11E5-9EEC-0002A5D5C51B"); // Custom UUID
 */
 BLECharacteristic imuAccCharacteristic("917649A1-D98E-11E5-9EEC-0002A5D5C51B", BLERead | BLENotify, 12 );
 BLECharacteristic imuGyroCharacteristic("917649A2-D98E-11E5-9EEC-0002A5D5C51B", BLERead | BLENotify, 12 );
-BLEUnsignedCharCharacteristic appButtonCharacteristic("917649A7-D98E-11E5-9EEC-0002A5D5C51B", BLERead | BLEWrite );
+//BLEUnsignedCharCharacteristic appButtonCharacteristic("917649A7-D98E-11E5-9EEC-0002A5D5C51B", BLERead | BLEWrite );
 
 BLEDescriptor imuAccDescriptor("2902", "block");
 BLEDescriptor imuGyroDescriptor("2902", "block");
@@ -101,10 +101,10 @@ void setup() {
 
   // initialze serial port for debugging communications
   Serial.begin(9600); // initialize Serial communication
-  while (!Serial);    // wait for the serial port to open
+  //while (!Serial);    // wait for the serial port to open
 
-  Serial.println("Arduino101/IntelCurie/Accelerometer/Evothings Example Started");
-  Serial.println("Serial rate set to 9600");
+  //Serial.println("Arduino101/IntelCurie/Accelerometer/Evothings Example Started");
+  //Serial.println("Serial rate set to 9600");
 
   // initialize IMU
   // Serial.println("Initializing IMU device...");
@@ -121,14 +121,13 @@ void setup() {
   pinMode(BLE_CONNECT, OUTPUT);
   pinMode(INDICATOR_LEDA, OUTPUT);
 
-  blePeripheral.setLocalName("imu");
+  blePeripheral.setLocalName("arduino-hub");
   blePeripheral.setAdvertisedServiceUuid(imuService.uuid());  // add the service UUID
   blePeripheral.addAttribute(imuService);
   blePeripheral.addAttribute(imuAccCharacteristic);
   blePeripheral.addAttribute(imuAccDescriptor);
   blePeripheral.addAttribute(imuGyroCharacteristic);
   blePeripheral.addAttribute(imuGyroDescriptor);
-  //blePeripheral.addAttribute(appButtonCharacteristic);
 
 
   // All characteristics should be initialized to a starting value prior
@@ -156,7 +155,7 @@ void loop() {
   BLECentral central = blePeripheral.central();
   if (central) {
 
-    Serial.print("Connected to central: "); Serial.println(central.address());
+    //Serial.print("Connected to central: "); Serial.println(central.address());
     // It does not matter f you connect this LED or not, it is up to you.
     digitalWrite(BLE_CONNECT, HIGH);
 
@@ -196,10 +195,10 @@ void loop() {
 
 
       // These statements are for debugging puposes only and can be commented out to increae the efficiency of the sketch.
-      Serial.print( "(ax,ay,az): " );
-      Serial.print("("); Serial.print(accData.a[0]); Serial.print(","); Serial.print(accData.a[1]); Serial.print(","); Serial.print(accData.a[2]); Serial.print(")"); Serial.println();
-      Serial.print( "(gx,gy,gz): " );
-      Serial.print("("); Serial.print(gyroData.g[0]); Serial.print(","); Serial.print(gyroData.g[1]); Serial.print(","); Serial.print(gyroData.g[2]); Serial.print(")"); Serial.println();
+      //Serial.print( "(ax,ay,az): " );
+      //Serial.print("("); Serial.print(accData.a[0]); Serial.print(","); Serial.print(accData.a[1]); Serial.print(","); Serial.print(accData.a[2]); Serial.print(")"); Serial.println();
+      //Serial.print( "(gx,gy,gz): " );
+      //Serial.print("("); Serial.print(gyroData.g[0]); Serial.print(","); Serial.print(gyroData.g[1]); Serial.print(","); Serial.print(gyroData.g[2]); Serial.print(")"); Serial.println();
 
 
 
@@ -230,6 +229,7 @@ void loop() {
          You can make them do anything here.
 
       */
+      /**
       if ( appButtonCharacteristic.written() ) {
 
         int appButtonValue = appButtonCharacteristic.value();
@@ -248,7 +248,7 @@ void loop() {
         }
 
       }
-
+      */
 
     } // while central.connected
   } // if central
