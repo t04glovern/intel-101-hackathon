@@ -13,6 +13,12 @@
 
 ### Bluetooth
 
+**Central:** A Bluetooth device such as smart phone, tablet, or PC that initiates an outgoing connection request to an advertising peripheral device. Once connected to the peripheral, the central device can exchange data, read values from the peripheral device, and execute commands on the peripheral devices.
+
+**Peripheral:** A BLE device that accepts an incoming connection request after advertising. It gathers and publishes data for other devices to consume.
+
+The **central device communicates with peripherals through advertising packages**. Peripheral devices send out the advertisements, and the central device scans for advertisements.
+
 * Simple Explaination of BLE and GATT - https://www.codeproject.com/Articles/1156242/Arduino-Bluetooth-Low-Energy
 
 ![Central and Peripheral Devices](https://www.codeproject.com/KB/showcase/1156242/central-and-peripheral-device-communication..png)
