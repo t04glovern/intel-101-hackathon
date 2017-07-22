@@ -30,10 +30,10 @@ BLEService arduinoSensorService("2571bb9c-3516-4399-94d4-7b531e97100c");
     > Max Byte Length (Max allowed 20 bytes)
 */
 BLECharacteristic timestamp("b43521f5-16ec-4936-849c-6c218e7bdab5", BLERead | BLENotify | BLEWrite, 20);
-BLECharacteristic data_point_1("beb203a6-bdc3-4111-9569-b2a3aa121f00", BLERead, 5);
-BLECharacteristic data_point_2("0d41699d-cae3-41d4-8504-86fd0072b31a", BLERead , 5 );
-BLECharacteristic data_point_3("8cd25b99-1690-47bc-b3ac-de594fb313de", BLERead, 5);
-BLECharacteristic data_point_4("0b86e58a-1456-410c-a69b-601aaeaa2a46", BLERead, 5);
+BLECharacteristic data_point_1("beb203a6-bdc3-4111-9569-b2a3aa121f00", BLERead, 2);
+BLECharacteristic data_point_2("0d41699d-cae3-41d4-8504-86fd0072b31a", BLERead , 2 );
+BLECharacteristic data_point_3("8cd25b99-1690-47bc-b3ac-de594fb313de", BLERead, 2);
+BLECharacteristic data_point_4("0b86e58a-1456-410c-a69b-601aaeaa2a46", BLERead, 2);
 
 
 /**
@@ -165,8 +165,8 @@ void getDataPoint1() {
   Serial.print("DataPoint1 is: ");
   Serial.println(sensorValue);
 
-  char charArray[5];
-  dtostrf(sensorValue, 5, 0, charArray);
+  char charArray[2];
+  dtostrf(sensorValue, 2, 0, charArray);
   
   data_point_1.setValue(charArray);
 }
@@ -177,8 +177,8 @@ void getDataPoint2() {
   Serial.print("DataPoint2 is: ");
   Serial.println(sensorValue);
 
-  char charArray[5];
-  dtostrf(sensorValue, 5, 0, charArray);
+  char charArray[2];
+  dtostrf(sensorValue, 2, 0, charArray);
   
   data_point_2.setValue(charArray);
 }
@@ -189,8 +189,8 @@ void getDataPoint3() {
   Serial.print("DataPoint3 is: ");
   Serial.println(sensorValue);
 
-  char charArray[5];
-  dtostrf(sensorValue, 5, 0, charArray);
+  char charArray[2];
+  dtostrf(sensorValue, 2, 0, charArray);
   
   data_point_3.setValue(charArray);
 }
@@ -201,8 +201,8 @@ void getDataPoint4() {
   Serial.print("DataPoint4 is: ");
   Serial.println(sensorValue);
 
-  char charArray[5];
-  dtostrf(sensorValue, 5, 0, charArray);
+  char charArray[2];
+  dtostrf(sensorValue, 2, 0, charArray);
   
   data_point_4.setValue(charArray);
 }
