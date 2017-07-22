@@ -1,11 +1,8 @@
 from bluepy.btle import Scanner, DefaultDelegate, UUID, Peripheral
+from datetime import datetime
+
 import time
 import binascii
-import os
-import struct
-from datetime import timedelta, datetime
-import io
-import os
 
 # Bluetooth LE Settings
 deviceName = "rpi-central-01"
@@ -16,12 +13,6 @@ today = datetime.today()
 # Defines how often to poll for device if data is found/not found
 sleepIfFound = 20  # secs
 sleepIfNotFound = 10  # secs
-
-# Warnings
-success = "alert alert-success"
-info = "alert alert-info"
-warning = "alert alert-warning"
-danger = "alert alert-danger"
 
 # Define Bluetooth LE UUIDs
 validUUIDs = []
@@ -51,8 +42,10 @@ uuidCount = len(validUUIDs)
 
 # Write data to a date store
 def add_sensor_data(timestamp, datePoint1, datePoint2, datePoint3, datePoint4):
-    data = "Identifier: {}\nTimestamp: {}\nData 1: {}\nData 2: {}\nData 3: {}\nData 4: {}\n".format(timestamp, datePoint1, datePoint2, datePoint3, datePoint4)
-    return 'ok'
+    time_stamp = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+    data = "Timestamp: {} | Data 1: {} | Data 2: {} | Data 3: {} | Data 4: {} | ".format(time_stamp, datePoint1, datePoint2, datePoint3, datePoint4)
+    print data
+    return data
 
 
 # Function to determine BTLE devices available
@@ -67,23 +60,11 @@ class ScanDelegate(DefaultDelegate):
             print "Received new data from", dev.addr
 
 
-class MyDelegate(DefaultDelegate):
-    def __init__(self):
-        DefaultDelegate.__init__(self)
-
-    def handleNotification(self, cHandle, data):
-        print("A notification was received: %s" % data)
-
-        val = binascii.b2a_hex(data)
-        val = binascii.unhexlify(val)
-        val = str(val).strip()
-        val = int(val)
-        print "Amount in bin : " + str(val)
-
-
 def connect_to_device(mac_address):
     # Get a reference to the connect device peripheral
     arduino_peripheral = Peripheral(mac_address)
+
+    timestamp, data_point_1, data_point_2, data_point_3, data_point_4 = "blank"
 
     # Iterate over all the known UUIDs
     for x in range(0, uuidCount):
@@ -95,7 +76,8 @@ def connect_to_device(mac_address):
                 val = binascii.unhexlify(val)
                 val = str(val).strip()
                 val = int(val)
-                print validUUIDs[x][1] + ": " + str(val)
+
+                #print validUUIDs[x][1] + ": " + str(val)
 
                 if validUUIDs[x][1] == "timestamp":
                     timestamp = val
@@ -109,12 +91,28 @@ def connect_to_device(mac_address):
                     data_point_4 = val
         finally:
             pass
+
      # Add sensor data to the datastore
-    overallMsg = add_sensor_data(timestamp, data_point_1, data_point_2, data_point_3, data_point_4)
+    add_sensor_data(timestamp, data_point_1, data_point_2, data_point_3, data_point_4)
 
     # Disconnect from the device peripheral
     arduino_peripheral.disconnect()
-    return overallMsg
+
+
+def get_scan():
+    scanner = Scanner().withDelegate(ScanDelegate())
+    devices = scanner.scan(4.0)
+
+    base_device_id = "arduino-node-"
+    mac_addr = "empty"
+
+    for dev in devices:
+        for (adtype, desc, value) in dev.getScanData():
+            if desc == "Complete Local Name" and base_device_id in value:
+                print "Device %s (%s), RSSI=%d dB" % (dev.addr, dev.addrType, dev.rssi)
+                print "  %s = %s" % (desc, value)
+                mac_addr = dev.addr
+    return mac_addr
 
 
 def get_mac(val_name):
@@ -141,12 +139,12 @@ check_time = 0
 while 1:
     while check_time < time.time():
         # Check if arduino node is available
-        arduino_mac = get_mac("arduino-node-01")
+        #arduino_mac = get_mac("arduino-node-01")
+        arduino_mac = get_scan()
 
         if arduino_mac != "empty":
-            print "found it"
             try:
-                print connect_to_device(arduino_mac)
+                connect_to_device(arduino_mac)
                 check_time = time.time() + sleepIfFound
                 arduino_mac = "empty"
                 print "Reading obtained, waiting " + str(sleepIfFound) + " seconds"
