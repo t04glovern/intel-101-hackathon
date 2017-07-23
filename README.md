@@ -11,7 +11,9 @@
 * Intel Pattern Matching - https://github.com/01org/Intel-Pattern-Matching-Technology
 * Neural Network with MNIST - https://create.arduino.cc/projecthub/marcusob/the-intel-arduino-101-hardware-neural-network-with-mnist-0e2159
 
-### Bluetooth
+### Bluetooth LE
+
+* **HM-10 Bluetooth LE Complete Guide:** - http://www.martyncurrey.com/hm-10-bluetooth-4ble-modules/#intro
 
 **Central:** A Bluetooth device such as smart phone, tablet, or PC that initiates an outgoing connection request to an advertising peripheral device. Once connected to the peripheral, the central device can exchange data, read values from the peripheral device, and execute commands on the peripheral devices.
 

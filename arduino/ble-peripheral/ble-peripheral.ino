@@ -55,8 +55,8 @@ String dev_id = "arduino-node-01";
 void setup() {
 
   // Initialze serial port for debugging communications
-  Serial.begin(115200);
-  Serial.println("Starting " + dev_id + " communications");
+  //Serial.begin(115200);
+  //Serial.println("Starting " + dev_id + " communications");
 
   // Set data pin modes
   pinMode(data_pin_1, INPUT);
@@ -77,6 +77,9 @@ void setup() {
   blePeripheral.addAttribute(data_point_2);
   blePeripheral.addAttribute(data_point_3);
   blePeripheral.addAttribute(data_point_4);
+
+  // Set the correct time manually
+  setTime(1, 56, 20, 23, 7, 2017);
 
   // Initial Sensor Get
   readSensors();
@@ -144,6 +147,7 @@ void getTimestamp() {
 
   timestamp.setValue(charArray);
 
+  /*
   Serial.print("Ok, Time = ");
   print2digits(hour());
   Serial.write(':');
@@ -157,13 +161,14 @@ void getTimestamp() {
   Serial.write('/');
   Serial.print(year());
   Serial.println();
+  */
 }
 
 void getDataPoint1() {
   int sensorValue = digitalRead(data_pin_1);
   
-  Serial.print("DataPoint1 is: ");
-  Serial.println(sensorValue);
+  //Serial.print("DataPoint1 is: ");
+  //Serial.println(sensorValue);
 
   char charArray[2];
   dtostrf(sensorValue, 2, 0, charArray);
@@ -174,8 +179,8 @@ void getDataPoint1() {
 void getDataPoint2() {
   int sensorValue = digitalRead(data_pin_2);
   
-  Serial.print("DataPoint2 is: ");
-  Serial.println(sensorValue);
+  //Serial.print("DataPoint2 is: ");
+  //Serial.println(sensorValue);
 
   char charArray[2];
   dtostrf(sensorValue, 2, 0, charArray);
@@ -186,8 +191,8 @@ void getDataPoint2() {
 void getDataPoint3() {
   int sensorValue = digitalRead(data_pin_3);
   
-  Serial.print("DataPoint3 is: ");
-  Serial.println(sensorValue);
+  //Serial.print("DataPoint3 is: ");
+  //Serial.println(sensorValue);
 
   char charArray[2];
   dtostrf(sensorValue, 2, 0, charArray);
@@ -198,8 +203,8 @@ void getDataPoint3() {
 void getDataPoint4() {
   int sensorValue = digitalRead(data_pin_4);
   
-  Serial.print("DataPoint4 is: ");
-  Serial.println(sensorValue);
+  //Serial.print("DataPoint4 is: ");
+  //Serial.println(sensorValue);
 
   char charArray[2];
   dtostrf(sensorValue, 2, 0, charArray);
