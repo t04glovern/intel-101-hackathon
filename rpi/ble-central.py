@@ -1,6 +1,12 @@
 from bluepy import btle
+import numpy as np
 import time
 import struct
+
+
+def large_magnitude(x, y, z):
+	return (x ** 2 + y ** 2 + z ** 2) ** 0.5
+
 
 print "Connecting..."
 # This mac address is the one used by the Arduino 101
@@ -42,13 +48,21 @@ arduinoAccValue = arduinoService.getCharacteristics(imuAccUUID)[0]
 arduinoGyroValue = arduinoService.getCharacteristics(imuGyroUUID)[0]
 
 while (1):
-    time.sleep(1.0)
-    accVal = arduinoAccValue.read()
-    gyroVal = arduinoGyroValue.read()
+	accVal = arduinoAccValue.read()
+	#gyroVal = arduinoGyroValue.read()
 
-    # Unpack the float arrays
-    accVal_unpacked = struct.unpack('3f', accVal)
-    gyroVal_unpacked = struct.unpack('3f', gyroVal)
+	# Unpack the float arrays
+	accVal_unpacked = struct.unpack('3f', accVal)
+	#gyroVal_unpacked = struct.unpack('3f', gyroVal)		
 
-    print accVal_unpacked
-    print gyroVal_unpacked
+	# Save variables
+	accX, accY, accZ = accVal_unpacked
+	#gyroX, gyroY, gyroZ = gyroVal_unpacked
+
+	# Normalize
+	accMag = large_magnitude(accX, accY, accZ)
+	#gyroMag = large_magnitude(gyroVal_unpacked)
+
+	# Output Values
+	print "aX: {}\t\taY: {}\t\taZ: {}\t\tMag: {}".format(accX, accY, accZ, accMag)
+	#print "gX: {}\t\tgY: {}\t\tgZ: {}\t\tMag: {}".format(gyroX, gyroY, gyroZ, np.linalg.norm(gyroNorm))

@@ -32,3 +32,9 @@ Run a BLE Scan
 ```bash
 sudo hcitool lescan
 ```
+
+Install numpy for vector testing
+
+```bash
+sudo apt-get install python-numpy
+```
