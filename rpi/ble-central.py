@@ -1,11 +1,23 @@
+import websocket
+import thread
 from bluepy import btle
 import time
+from datetime import datetime
 import struct
-
+import json
 
 def large_magnitude(x, y, z):
 	return (x ** 2 + y ** 2 + z ** 2) ** 0.5
 
+
+def send_ws_message(msg):
+	ws.connect("ws://nathanglover.com:3000/ws/bledata")
+	ws.send(msg)
+	ws.close()
+
+
+# Web socket hook
+ws = websocket.WebSocket(sslopt={"check_hostname": False})
 
 print "Connecting..."
 # This mac address is the one used by the Arduino 101
@@ -65,5 +77,9 @@ while (1):
 	#gyroMag = large_magnitude(gyroVal_unpacked)
 
 	# Output Values
-	print "aX: {}\t\taY: {}\t\taZ: {}\t\tMag: {}".format(accX, accY, accZ, accMag)
+	#print "aX: {}\t\taY: {}\t\taZ: {}\t\tMag: {}".format(accX, accY, accZ, accMag)
 	#print "gX: {}\t\tgY: {}\t\tgZ: {}\t\tMag: {}".format(gyroX, gyroY, gyroZ, np.linalg.norm(gyroNorm))
+	
+	data = { "timestamp" : str(datetime.utcnow()), "accX" : accX, "accY" : accY, "accZ" : accZ, "accMag" : accMag }
+	json_data = json.dumps(data)	
+	send_ws_message(json_data)
