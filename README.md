@@ -120,7 +120,7 @@ Having a preset sampling frequency (Fs), and knowing that $bin width = Fs/(N Bin
 | 32       | 0.37 | 41      | 76     | 80   | 59    | 74   |
 | 16       | 0.12 | 21      | 37     | 46   | 30    | 39   |
 
-*Data from [openmusiclabs](http://wiki.openmusiclabs.com/wiki/ArduinoFFT)
+*Data from [openmusiclabs](http://wiki.openmusiclabs.com/wiki/ArduinoFFT)*
 
 We therefore pick 32 bins, giving us a bin width of 0.625Hz, meaning we will be ignoring the first two bins, giving us a range of 1.25Hz to 10Hz.
 
