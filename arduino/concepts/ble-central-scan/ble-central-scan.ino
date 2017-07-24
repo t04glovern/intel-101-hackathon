@@ -26,10 +26,41 @@
  *
  */
 
+
 #include <CurieBLE.h>
+
+/**
+ * Ethernet UDP Connection
+ */
+
+#include <SPI.h>
+#include <Ethernet.h>
+#include <EthernetUdp.h>
+
+// MAC address and IP address for ethernet controller
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xDD };
+
+// Set the static IP address of local adaptor
+IPAddress ip(192, 168, 188, 165);
+
+// Set the IP of the device to send UDP to
+IPAddress destinationIP(192, 168, 188, 83);
+
+// Local UDP port
+unsigned int localPort = 6553;
+
+// port to send UDP to
+unsigned int destinationPort = 8888;
+
+// An EthernetUDP instance to let us send and receive packets over UDP
+EthernetUDP Udp;
 
 void setup() {
   Serial.begin(9600);
+
+  // start the Ethernet connection:
+  Ethernet.begin(mac, ip);
+  Udp.begin(localPort);
 
   // initialize the BLE hardware
   BLE.begin();
@@ -46,6 +77,8 @@ void setup() {
 void loop() {
   // poll the central for events
   BLE.poll();
+
+  
 }
 
 void bleCentralDiscoverHandler(BLEDevice peripheral) {
@@ -78,6 +111,17 @@ void bleCentralDiscoverHandler(BLEDevice peripheral) {
   Serial.println(peripheral.rssi());
 
   Serial.println();
+  sendPacket(peripheral.address());
+}
+
+void sendPacket(String data)
+{
+  int charSize = data.length() + 1;
+  char contents[charSize];
+  data.toCharArray(contents, charSize);
+  Udp.beginPacket(destinationIP, destinationPort);
+  Udp.write(contents);
+  Udp.endPacket();
 }
 
 
