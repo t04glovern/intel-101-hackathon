@@ -133,7 +133,7 @@ Each of these bins will return a scalar intensity value. The units themselves ar
 There are two ways that our FFT model can be improved
 
 * remove the noise floor (see the single sided amplitude spectrum)
-* Consider that the higher the frequency the event, the more intense it is, and apply a multiplier based on that.
+* Consider that the higher the frequency the event, the worse it is, and apply a multiplier based on that.
 
 
 
