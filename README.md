@@ -130,5 +130,20 @@ There are two ways that our FFT model can be improved
 * Consider that the higher the frequency the event, the worse it is, and apply a multiplier based on that.
 
 
-
+##Model
+//System model
+#Subsystem1
+#Subsystem2
+#Subsystem3
+#Datalogger
+This is the component that measures acceleration values
+It consists of:
+* HC-10 Bluetooth module to allow for BLE communication with the Arduino101 router
+* A MPU-9250 IMU to get accelerometer and gyroscope values.
+* An arduino mini to do read and do the math for the accelerometer and gyroscope values, as well as stream the data over bluetooth.
+* A Lipo charger
+* A 18650 rechargable lithium battery
+* A boost converter to step up the voltage from the 3-4.2V from the battery to 5V required by the arduino and IMU.
+* A case to fit it all in.
+//Wiring Diagram
 
