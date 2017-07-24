@@ -96,3 +96,45 @@ Which shows that there are two signals in there: one at 50Hz and one at ~125Hz.
 We will be applying this principle for our acceleration data, but will be looking for spikes in the 1-10Hz range, which we know is approximately the frequency that a seizure will occur at (try to shake your hand faster than 10 times per second).
 
 It's important to note that we're starting at 1 instead of 0Hz, because we expect that our accelerometer data will oscillate around a semi constant [non zero value](https://www.invensense.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf), with the Fourier transform of a constant being represented by a spike at 0Hz.
+
+
+
+# FFT
+
+We will be using the Arduino FFT library provided by [Kosme](https://github.com/kosme/arduinoFFT).
+
+Immediately we know that we must be sampling our data at least as fast as the Nyquist rate, which is 2x the highest frequency that we want to sample. In this case, the sample rate (Fs) will be 20Hz.
+
+Once this sample rate is determined, we need to figure out the number and size of the FFT bins. Knowing on the lower bound that we want to cut out at least the 0-1hz region, we will want a bin with of around 1hz.
+
+Having a preset sampling frequency (Fs), and knowing that $bin width = Fs/(N Bins)$, where number of bins has to be a power of 2, where as number of bins is increased, there is a significant speed penalty to every function from the FFT library that we call.
+
+##### Speed characteristics
+
+| Function | run  | reorder | window | lin  | lin8  | log  |
+| -------- | ---- | ------- | ------ | ---- | ----- | ---- |
+| N        | (ms) | (us)    | (us)   | (us) | (us)* | (us) |
+| 256      | 6.32 | 412     | 608    | 588  | 470   | 608  |
+| 128      | 2.59 | 193     | 304    | 286  | 234   | 290  |
+| 64       | 1.02 | 97      | 152    | 145  | 114   | 144  |
+| 32       | 0.37 | 41      | 76     | 80   | 59    | 74   |
+| 16       | 0.12 | 21      | 37     | 46   | 30    | 39   |
+
+*Data from [openmusiclabs](http://wiki.openmusiclabs.com/wiki/ArduinoFFT)
+
+We therefore pick 32 bins, giving us a bin width of 0.625Hz, meaning we will be ignoring the first two bins, giving us a range of 1.25Hz to 10Hz.
+
+Each of these bins will return a scalar intensity value. The units themselves are reasonably arbitrary
+
+
+
+## Improving our FFT model
+
+There are two ways that our FFT model can be improved
+
+* remove the noise floor (see the single sided amplitude spectrum)
+* Consider that the higher the frequency the event, the more intense it is, and apply a multiplier based on that.
+
+
+
+
