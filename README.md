@@ -75,8 +75,6 @@ This would also be undesirable for three main reasons
 * The accelerometer is a noisy signal. With the accelerometer being heavily weighted by the complementary filter, this noise will also be heavily weighted. Seizures can be [low magnitude events](https://www.youtube.com/watch?v=AuxZTC9RwGI), making it possible for noise which is either difficult or impossible to eliminate to be characterized as a seizure.
 * The change in magnitude is highly dependent on the sampling frequency of the accelerometer, too high of a sampling frequency and we may not have a high enough resolution to properly characterise the event. Too low and we may miss the event.
 
-
-
 ## Use Fourier transforms
 
 *Not to be confused with the four year transform*
@@ -97,17 +95,13 @@ We will be applying this principle for our acceleration data, but will be lookin
 
 It's important to note that we're starting at 1 instead of 0Hz, because we expect that our accelerometer data will oscillate around a semi constant [non zero value](https://www.invensense.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf), with the Fourier transform of a constant being represented by a spike at 0Hz.
 
-
-
 # FFT
 
 We will be using the Arduino FFT library provided by [Kosme](https://github.com/kosme/arduinoFFT).
 
-Immediately we know that we must be sampling our data at least as fast as the Nyquist rate, which is 2x the highest frequency that we want to sample. In this case, the sample rate (Fs) will be 20Hz.
+Immediately we know that we must be sampling our data at least as fast as the Nyquist rate, which is 2x the highest frequency that we want to sample. In this case as we want to measure up to 10Hz, the sample rate (Fs) will be 20Hz.
 
-Once this sample rate is determined, we need to figure out the number and size of the FFT bins. Knowing on the lower bound that we want to cut out at least the 0-1hz region, we will want a bin with of around 1hz.
-
-Having a preset sampling frequency (Fs), and knowing that $bin width = Fs/(N Bins)$, where number of bins has to be a power of 2, where as number of bins is increased, there is a significant speed penalty to every function from the FFT library that we call.
+Once this sample rate is determined, we need to figure out the number and size of the FFT bins.The FFT function as implemented by Kosme returns the frequencies in "bins" eg [0 to binwidth, binwidth to 2xbinwidth] Knowing on the lower bound that we want to cut out at least the 0-1hz region, we will want a bin width that allows us to cut out approximatly 1hz. Having a preset sampling frequency (Fs), and knowing that $bin width = Fs/(N Bins)$, where number of bins has to be a power of 2. We incur a non trivial speed penalty on all FFT functions when increasing the number of bins (which is expected).
 
 ##### Speed characteristics
 
