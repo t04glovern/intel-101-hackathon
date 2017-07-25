@@ -62,6 +62,7 @@ void loop() {
     //do FFT
     FFT.Windowing(vReal, SampleFrequencyFS, FFT_WIN_TYP_HANN);
     FFT.Compute(vReal, vImag, SampleFrequencyFS);
+    FFT.ComplexToMagnitude(vReal, vImag, samples); //otherwise sqrt(re^2+im^2)
     //As mentioned, we'll ignore the first 2 real bins (0-1.25Hz)
     //Equally because Nyquist we're not going to get decent data beyond Samplefrequency/2
     //also we really don't care about 10Hz onwards
