@@ -67,7 +67,7 @@ void loop() {
     //also we really don't care about 10Hz onwards
     //so ignore Nbins/2 onwards
     for(int jj=2; jj < Nbins/2; jj++){bluetooth.print(vReal[jj]);}
-    bluetooth.print("/n");//print newline char
+    bluetooth.println();//print newline char
     //should get.... 14 bins.
 
     //optional- weight higher frequency higher. Do something like multiplier =((jj-2)*.05+1)
