@@ -26,7 +26,7 @@ void setup() {
   Serial.begin(9600);
   //serial for debugging, bluetooth for data
   //bluetooth.begin(9600);
-Serial.print("test");
+
   Wire.begin(); //start I2C bus
   IMU.begin(); // start IMU
   delayTime = 1000 / SampleFrequencyFS; //you're not going to get faster than 512Hz on an arduino...
@@ -38,14 +38,12 @@ Serial.print("test");
 }
 
 void loop() {
-Serial.println("test2");
+
   for (int ii = 0; ii < SampleFrequencyFS ; ii++)
   {
     mcurrent = millis();
-    Serial.println(mcurrent-mprevious);
     if (mcurrent - mprevious >= delayTime);
     {
-      Serial.println("delay");
       delay((mcurrent - mprevious)-delayTime );
     }
     pgx = gx; pgy = gy; pgz = gz; //store previous values (used for comp filter)
