@@ -58,7 +58,7 @@ void loop() {
     mag = pow((0.15 * dgx + 0.85 * ax*gravity),2);
     mag += pow((0.15 * dgx + 0.85 * ax*gravity),2);
     mag += pow((0.15 * dgz + 0.85 * az*gravity),2);
-    mag += pow(mag,(1/2));
+    mag = pow(mag,(1/2));
     //feed this into the circular buffer
     cBuffer[ii] = mag;
     //re-create Real values for FFT
