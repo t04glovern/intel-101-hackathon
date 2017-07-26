@@ -32,6 +32,12 @@ The **central device communicates with peripherals through advertising packages*
 
 * Specifications - https://www.bluetooth.com/specifications/gatt
 
+## Communication Diagrams
+
+### Node-Red pipeline
+
+![Node-Red pipeline](https://github.com/t04glovern/intel-101-hackathon/blob/master/node-red/data-flow.png?raw=true)
+
 ## General
 
 [![Demo CountPages alpha](https://thumbs.gfycat.com/CrispImpressionableAntarcticfurseal-size_restricted.gif)](https://gfycat.com/gifs/detail/CrispImpressionableAntarcticfurseal)
