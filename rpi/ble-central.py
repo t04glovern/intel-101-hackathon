@@ -2,6 +2,7 @@ import websocket
 import thread
 from bluepy import btle
 import time
+import random
 from datetime import datetime
 import struct
 import json
@@ -61,6 +62,7 @@ arduinoAccValue = arduinoService.getCharacteristics(imuAccUUID)[0]
 #arduinoGyroValue = arduinoService.getCharacteristics(imuGyroUUID)[0]
 
 while (1):
+	time.sleep(0.05)
 	accVal = arduinoAccValue.read()
 	#gyroVal = arduinoGyroValue.read()
 
@@ -79,7 +81,8 @@ while (1):
 	# Output Values
 	#print "aX: {}\t\taY: {}\t\taZ: {}\t\tMag: {}".format(accX, accY, accZ, accMag)
 	#print "gX: {}\t\tgY: {}\t\tgZ: {}\t\tMag: {}".format(gyroX, gyroY, gyroZ, np.linalg.norm(gyroNorm))
-	
-	data = { "timestamp" : str(datetime.utcnow()), "accX" : accX, "accY" : accY, "accZ" : accZ, "accMag" : accMag }
-	json_data = json.dumps(data)	
+
+	options = ["right-arm", "left-arm", "right-leg", "left-leg"]
+	data = { "sensorName" : "left-arm", "timestamp" : str(datetime.utcnow()), "accX" : accX, "accY" : accY, "accZ" : accZ, "accMag" : accMag }
+	json_data = json.dumps(data)
 	send_ws_message(json_data)
