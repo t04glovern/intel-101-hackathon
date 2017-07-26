@@ -146,4 +146,4 @@ It consists of:
 * A boost converter to step up the voltage from the 3-4.2V from the battery to 5V required by the arduino and IMU.
 * A case to fit it all in.
 //Wiring Diagram
-![img](http://i.imgur.com/pgglJ2U.jpg)
+![img](http://i.imgur.com/bK7ZCK3.jpg)
