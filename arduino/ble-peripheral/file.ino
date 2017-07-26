@@ -1,6 +1,6 @@
 #include "Wire.h"
 #include "FaBo9Axis_MPU9250.h"
-//#include "SoftwareSerial.h"
+#include "SoftwareSerial.h"
 #include "arduinoFFT.h"
 
 #define SampleFrequencyFS 20
