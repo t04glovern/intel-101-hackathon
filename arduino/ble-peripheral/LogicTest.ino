@@ -42,7 +42,7 @@ void loop() {
   for (int ii = 0; ii < SampleFrequencyFS ; ii++)
   {
     mcurrent = millis();
-    if (mcurrent - mprevious >= delayTime);
+    if ((mcurrent - mprevious) >= delayTime);
     {
       delay((mcurrent - mprevious)-delayTime );
     }
