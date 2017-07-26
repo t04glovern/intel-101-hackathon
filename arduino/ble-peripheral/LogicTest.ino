@@ -26,7 +26,7 @@ void setup() {
   Serial.begin(9600);
   //serial for debugging, bluetooth for data
   //bluetooth.begin(9600);
-
+  delay(3000);
   Wire.begin(); //start I2C bus
   IMU.begin(); // start IMU
   delayTime = 1000 / SampleFrequencyFS; //you're not going to get faster than 512Hz on an arduino...
@@ -38,54 +38,60 @@ void setup() {
 }
 
 void loop() {
-
-  for (int ii = 0; ii < SampleFrequencyFS ; ii++)
+  for (int ii = 0; ii <= Nbins ; ii++)
   {
     mcurrent = millis();
-    if ((mcurrent - mprevious) >= delayTime);
+    if ((mcurrent - mprevious) <= delayTime)
     {
-      delay((mcurrent - mprevious)-delayTime );
+      delay(delayTime-(mcurrent - mprevious) );
     }
     pgx = gx; pgy = gy; pgz = gz; //store previous values (used for comp filter)
               IMU.readAccelXYZ(&ax, &ay, &az);
               IMU.readGyroXYZ(&gx, &gy, &gz);
     mprevious = mcurrent;
     //differentiate gyro
-    dgx = (gx - pgx) / (mcurrent - mprevious);
-    dgy = (gy - pgy) / (mcurrent - mprevious);
-    dgz = (gz - pgz) / (mcurrent - mprevious);
+    //dgx = (gx - pgx) / (mcurrent - mprevious);
+    //dgy = (gy - pgy) / (mcurrent - mprevious);
+    //dgz = (gz - pgz) / (mcurrent - mprevious);
     //complementry filter and magnitude scalar
-    mag = pow((0.15 * dgx + 0.85 * ax*gravity),2);
-    mag += pow((0.15 * dgx + 0.85 * ax*gravity),2);
-    mag += pow((0.15 * dgz + 0.85 * az*gravity),2);
-    mag = pow(mag,(1/2));
+
+
+mag = sqrt(pow(ax,2)+pow(ay,2)+pow(az,2));
+//    
+//    mag = pow((0.15 * dgx + 0.85 * ax*gravity),2);
+//    Serial.println("-----------");
+//    Serial.print(mag);
+//        Serial.print(",");
+//    mag += pow((0.15 * dgx + 0.85 * ax*gravity),2);
+//        Serial.print(mag);
+//        Serial.print(",");
+//    mag += pow((0.15 * dgz + 0.85 * az*gravity),2);
+//        Serial.print(mag);
+//        Serial.print(",");
+//    mag = pow(mag,(1/2));
     //feed this into the circular buffer
-    cBuffer[ii] = mag;
+    vReal[ii] = mag;
+    vImag[ii] = 0;
     //re-create Real values for FFT
-    for(int kk =0; kk<SampleFrequencyFS; kk++)
-    {
-      //can't do strcpy/strncpy so will have to iterate
-      vReal[kk] = 0;
-      vImag[kk] = 0;
-    }
-    //strcpy(vReal, cBuffer, SampleFrequencyFS);
-    //nuke imaginary values
-    //strcpy(vImag, zeroArray, SampleFrequencyFS);
-    //do FFT
-    FFT.Windowing(vReal, SampleFrequencyFS, FFT_WIN_TYP_HANN,FFT_FORWARD);
-    FFT.Compute(vReal, vImag, SampleFrequencyFS,FFT_FORWARD);
-    FFT.ComplexToMagnitude(vReal, vImag, SampleFrequencyFS); //otherwise sqrt(re^2+im^2)
+  }
+    FFT.Windowing(vReal, Nbins, FFT_WIN_TYP_HAMMING,FFT_FORWARD);
+    Serial.println("Got past window");
+    FFT.Compute(vReal, vImag, Nbins,FFT_FORWARD);
+    Serial.println("Got past computer");
+    FFT.ComplexToMagnitude(vReal, vImag, Nbins); //otherwise sqrt(re^2+im^2)
     //As mentioned, we'll ignore the first 2 real bins (0-1.25Hz)
     //Equally because Nyquist we're not going to get decent data beyond Samplefrequency/2
     //also we really don't care about 10Hz onwards
     //so ignore Nbins/2 onwards
-    for(int jj=2; jj < Nbins/2; jj++){
+    Serial.println("got past fft");
+    for(int jj=2; jj < Nbins/2; jj++)
+    {
       Serial.print(vReal[jj]);
       Serial.print(",");
+
     }
-    Serial.println();//print newline char
+    Serial.println();
     //should get.... 14 bins.
 
     //optional- weight higher frequency higher. Do something like multiplier =((jj-2)*.05+1)
-}
 }
