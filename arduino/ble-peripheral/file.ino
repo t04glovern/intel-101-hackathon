@@ -4,6 +4,7 @@
 #include "SoftwareSerial.h"
 #define SampleFrequencyFS = 20;
 #define Nbins = 32;
+#define gravity = 9.81;
 uint32_t delayTime = 0;
 double mcurrent, mprevious;
 FaBo9Axis IMU; //has I2C adress 0x68
@@ -56,7 +57,7 @@ void loop() {
     dgy = (gy - pgy) / (mcurrent - mprevious);
     dgz = (gz - pgz) / (mcurrent - mprevious);
     //complementry filter and magnitude scalar
-    mag = ((0.15 * dgx + 0.85 * ax) ^ 2 + (0.15 * dgy + 0.85 * ay) ^ 2 + (0.15 * dgz + 0.85 * az) ^ 2) ^ (1 / 2);
+    mag = ((0.15 * dgx + 0.85 * ax*gravity) ^ 2 + (0.15 * dgy + 0.85* * ay*gravity) ^ 2 + (0.15 * dgz + 0.85 * az*gravity) ^ 2) ^ (1 / 2);
     //feed this into the circular buffer
     cBuffer[ii] = mag;
     //re-create Real values for FFT
