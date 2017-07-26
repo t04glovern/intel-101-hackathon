@@ -1,22 +1,22 @@
 #include "Wire.h"
 #include "I2Cdev.h"
-#include "MPU9250.h"
+#include "FaBo9Axis_MPU9250.h"
 #include "SoftwareSerial.h"
 #define SampleFrequencyFS = 20;
 #define Nbins = 32;
 uint32_t delayTime = 0;
 double mcurrent, mprevious;
-MPU9250 IMU; //has I2C adress 0x68
+FaBo9Axis IMU; //has I2C adress 0x68
 
-int16_t ax, ay, az;
-int16_t gx, gy, gz; //store for current gyro values
-int16_t pgx, pgy, pgz; //store for previous gyro values
-int16_t dgx, dgy, dgz; //store diff(gyro) values
-double vReal[Nbins];
-double vImag[Nbins];
-int16_t cBuffer[Nbins] = 0; //circular buffer - need this because vReal gets overridden by FFT
+float ax, ay, az;
+float gx, gy, gz; //store for current gyro values
+float pgx, pgy, pgz; //store for previous gyro values
+float dgx, dgy, dgz; //store diff(gyro) values
+float vReal[Nbins];
+float vImag[Nbins];
+float cBuffer[Nbins] = 0; //circular buffer - need this because vReal gets overridden by FFT
 const int zeroArray[Nbins] = 0; //for overwriting imaginary values each FFT
-int32_t mag;
+float mag;
 
 SoftwareSerial bluetooth(10, 11); //Rx = 10, Tx=11
 
@@ -27,13 +27,16 @@ void setup() {
 
   Wire.begin() //start I2C bus
   IMU.initialize(); / start IMU
-  if not IMU.testConnection() {
+  if not IMU.begin() {
     Serial.println("Er: IMU not connected")
   }
   delayTime = 1000 / SampleFrequencyFS; //you're not going to get faster than 512Hz on an arduino...
   mprevious = millis()
               //prepopulate data so that the filter doesn't fail on the first input
-              IMU.getMotion6(&ax, &ay, &az, &gx, &gy, &gz)
+ 
+              IMU.readAccelXYZ(&ax, &ay, &az);
+              IMU.readGyroXYZ(&gx, &gy, &gz);
+    
 }
 
 void loop() {
@@ -46,7 +49,8 @@ void loop() {
       delay(mcurrent - mprevious - delayTime);
     }
     pgx = gx; pgy = gy; pgz = gz; //store previous values (used for comp filter)
-    IMU.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+              IMU.readAccelXYZ(&ax, &ay, &az);
+              IMU.readGyroXYZ(&gx, &gy, &gz);
     //differentiate gyro
     dgx = (gx - pgx) / (mcurrent - mprevious);
     dgy = (gy - pgy) / (mcurrent - mprevious);
