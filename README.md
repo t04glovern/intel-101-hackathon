@@ -4,14 +4,14 @@
 
 * Hackathon page - https://intelhacks.devpost.com
 
-### Intel & Curie
+## Intel & Curie
 
 * Intel XDK Getting started - https://software.intel.com/en-us/xdk/docs/intel-xdk-guided-tutorial
 * Intel XDK Samples - https://github.com/gomobile/
 * Intel Pattern Matching - https://github.com/01org/Intel-Pattern-Matching-Technology
 * Neural Network with MNIST - https://create.arduino.cc/projecthub/marcusob/the-intel-arduino-101-hardware-neural-network-with-mnist-0e2159
 
-### Bluetooth LE
+## Bluetooth LE
 
 * **HM-10 Bluetooth LE Complete Guide:** - http://www.martyncurrey.com/hm-10-bluetooth-4ble-modules/#intro
 
@@ -28,17 +28,19 @@ The **central device communicates with peripherals through advertising packages*
 * Specifications - https://www.bluetooth.com/specifications/protocol-specifications
 * Bluetooth LE to RPi wiki - http://www.elinux.org/RPi_Bluetooth_LE
 
-#### GATT
+### GATT
 
 * Specifications - https://www.bluetooth.com/specifications/gatt
 
-### General
+## General
+
+[![Demo CountPages alpha](https://thumbs.gfycat.com/CrispImpressionableAntarcticfurseal-size_restricted.gif)](https://gfycat.com/gifs/detail/CrispImpressionableAntarcticfurseal)
 
 * Implementation of IMU data from Arduino 101 over BLE - https://create.arduino.cc/projecthub/gov/imu-to-you-ae53e1
 * Installation guide for **bluepy** - https://www.hackster.io/alexis-santiago-allende/arduino-101-connects-with-raspberry-pi-zero-w-63adc0
 * **bluepy** repo with install guides - https://github.com/IanHarvey/bluepy
 
-### Data Processing
+## Data Processing
 
 We'll be using an MEMS (MicroElectoMechanical System) IMU (Inertial Measurement Unit) in the form of [MPU9250](https://www.sparkfun.com/products/13762) which includes an accelerometer, gyroscope and magnetometer. For our purposes, the magnetometer, which gives "global" orientation referenced to the earths magnetic field, is useless.
 
@@ -60,7 +62,7 @@ $Magnitude = sqrt(x^2+y^2+z^2)$
 
 Once we've got this information there are two main ways that it can be interpreted
 
-## Use the Arduino 101s built in 128 node neural network hardware
+### Use the Arduino 101s built in 128 node neural network hardware
 
 Creating a neural network to analyze this data is less than desirable
 
@@ -68,14 +70,14 @@ Creating a neural network to analyze this data is less than desirable
 * These neural networks would likely be specific to the region that the sensor is applied (an arm seizure would have different characteristics to a leg seizures).
 * In order for this model to be generalized, data would be required from multiple patients, a time consuming effort.
 
-## Characterize high changes in magnitude as seizure events 
+### Characterize high changes in magnitude as seizure events 
 
 This would also be undesirable for three main reasons
 
 * The accelerometer is a noisy signal. With the accelerometer being heavily weighted by the complementary filter, this noise will also be heavily weighted. Seizures can be [low magnitude events](https://www.youtube.com/watch?v=AuxZTC9RwGI), making it possible for noise which is either difficult or impossible to eliminate to be characterized as a seizure.
 * The change in magnitude is highly dependent on the sampling frequency of the accelerometer, too high of a sampling frequency and we may not have a high enough resolution to properly characterise the event. Too low and we may miss the event.
 
-## Use Fourier transforms
+### Use Fourier transforms
 
 *Not to be confused with the four year transform*
 
@@ -95,7 +97,7 @@ We will be applying this principle for our acceleration data, but will be lookin
 
 It's important to note that we're starting at 1 instead of 0Hz, because we expect that our accelerometer data will oscillate around a semi constant [non zero value](https://www.invensense.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf), with the Fourier transform of a constant being represented by a spike at 0Hz.
 
-# FFT
+## FFT
 
 We will be using the Arduino FFT library provided by [Kosme](https://github.com/kosme/arduinoFFT).
 
@@ -103,7 +105,7 @@ Immediately we know that we must be sampling our data at least as fast as the Ny
 
 Once this sample rate is determined, we need to figure out the number and size of the FFT bins.The FFT function as implemented by Kosme returns the frequencies in "bins" eg [0 to binwidth, binwidth to 2xbinwidth] Knowing on the lower bound that we want to cut out at least the 0-1hz region, we will want a bin width that allows us to cut out approximatly 1hz. Having a preset sampling frequency (Fs), and knowing that $bin width = Fs/(N Bins)$, where number of bins has to be a power of 2. We incur a non trivial speed penalty on all FFT functions when increasing the number of bins (which is expected).
 
-##### Speed characteristics
+### Speed characteristics
 
 | Function | run  | reorder | window | lin  | lin8  | log  |
 | -------- | ---- | ------- | ------ | ---- | ----- | ---- |
@@ -122,7 +124,7 @@ Each of these bins will return a scalar intensity value. The units themselves ar
 
 
 
-## Improving our FFT model
+### Improving our FFT model
 
 There are two ways that our FFT model can be improved
 
