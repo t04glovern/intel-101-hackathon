@@ -21,6 +21,11 @@ void setup() {
   Serial.begin(9600);
   //serial for debugging, bluetooth for data
   bluetooth.begin(9600);
+  bluetooth.print(AT+ROLE0);
+  bluetooth.print(AT+UUID0xFFE0);
+  bluetooth.print(AT+CHAR0xFFE1);
+  bluetooth.print(AT+NAMEMonitor);
+
   delay(3000);
   Wire.begin(); //start I2C bus
   IMU.begin(); // start IMU
