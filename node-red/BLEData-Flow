@@ -1,1 +1,544 @@
-[{"id":"bba07753.e8a308","type":"websocket in","z":"35fbc8b4.903f18","name":"/ws/bledata","server":"6b36a6bd.02d948","client":"","x":1104,"y":122,"wires":[["aede2e78.70c04"]]},{"id":"1d4f0742.a25779","type":"redis-in","z":"35fbc8b4.903f18","server":"188164df.59b95b","command":"psubscribe","name":"blejsonredis-sub","topic":"blejsonredis","timeout":0,"x":1094,"y":249,"wires":[["e4416ca3.e3a5"]]},{"id":"be33e48a.89ee28","type":"http in","z":"35fbc8b4.903f18","name":"http in","url":"/api/bledata","method":"get","swaggerDoc":"","x":1171,"y":377,"wires":[["e4416ca3.e3a5"]]},{"id":"ff2bbecb.0d266","type":"http response","z":"35fbc8b4.903f18","name":"http response","x":1641,"y":377,"wires":[]},{"id":"e4416ca3.e3a5","type":"function","z":"35fbc8b4.903f18","name":"BLE data Fn","func":"if (msg.topic == \"blejsonredis\") {\n    var json_result = JSON.parse(msg.payload);\n    context.v = json_result;\n    msg.payload = context.v;\n    return [msg,null];\n} else {\n    msg.payload = context.v;\n    return [null,msg];\n}","outputs":"2","noerr":0,"x":1367,"y":337,"wires":[["a9ea408c.fda57"],["ff2bbecb.0d266"]]},{"id":"a9ea408c.fda57","type":"debug","z":"35fbc8b4.903f18","name":"Debug","active":false,"console":"false","complete":"payload","x":1625,"y":272,"wires":[]},{"id":"aede2e78.70c04","type":"redis-out","z":"35fbc8b4.903f18","server":"188164df.59b95b","command":"publish","name":"blejsonredis-pub","topic":"blejsonredis","x":1373,"y":168,"wires":[]},{"id":"6b36a6bd.02d948","type":"websocket-listener","z":"","path":"/ws/bledata","wholemsg":"false"},{"id":"188164df.59b95b","type":"redis-config","z":"","host":"192.168.188.226","port":"32768","dbase":"0","pass":""}]
+[
+    {
+        "id": "bba07753.e8a308",
+        "type": "websocket in",
+        "z": "35fbc8b4.903f18",
+        "name": "/ws/bledata",
+        "server": "6b36a6bd.02d948",
+        "client": "",
+        "x": 227,
+        "y": 78,
+        "wires": [
+            [
+                "aede2e78.70c04"
+            ]
+        ]
+    },
+    {
+        "id": "1d4f0742.a25779",
+        "type": "redis-in",
+        "z": "35fbc8b4.903f18",
+        "server": "188164df.59b95b",
+        "command": "psubscribe",
+        "name": "blejsonredis-sub",
+        "topic": "blejsonredis",
+        "timeout": 0,
+        "x": 135,
+        "y": 231,
+        "wires": [
+            [
+                "e4416ca3.e3a5"
+            ]
+        ]
+    },
+    {
+        "id": "be33e48a.89ee28",
+        "type": "http in",
+        "z": "35fbc8b4.903f18",
+        "name": "http in",
+        "url": "/api/bledata",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 239,
+        "y": 403,
+        "wires": [
+            [
+                "e4416ca3.e3a5"
+            ]
+        ]
+    },
+    {
+        "id": "ff2bbecb.0d266",
+        "type": "http response",
+        "z": "35fbc8b4.903f18",
+        "name": "http response",
+        "x": 629,
+        "y": 389,
+        "wires": []
+    },
+    {
+        "id": "e4416ca3.e3a5",
+        "type": "function",
+        "z": "35fbc8b4.903f18",
+        "name": "BLE data Fn",
+        "func": "if (msg.topic == \"blejsonredis\") {\n    var json_result = JSON.parse(msg.payload);\n    context.v = json_result;\n    msg.payload = context.v;\n    return [msg,null];\n} else {\n    msg.payload = context.v;\n    return [null,msg];\n}",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 442,
+        "y": 311,
+        "wires": [
+            [
+                "1944ffff.51528"
+            ],
+            [
+                "ff2bbecb.0d266"
+            ]
+        ]
+    },
+    {
+        "id": "aede2e78.70c04",
+        "type": "redis-out",
+        "z": "35fbc8b4.903f18",
+        "server": "188164df.59b95b",
+        "command": "publish",
+        "name": "blejsonredis-pub",
+        "topic": "blejsonredis",
+        "x": 547,
+        "y": 157,
+        "wires": []
+    },
+    {
+        "id": "d82a504d.ea54e",
+        "type": "ui_gauge",
+        "z": "35fbc8b4.903f18",
+        "name": "",
+        "group": "aff4f966.e5f998",
+        "order": 0,
+        "width": "4",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Acceleration(X)",
+        "label": "",
+        "format": "{{value  | number:4}}",
+        "min": "-3",
+        "max": "3",
+        "colors": [
+            "#66ffcc",
+            "#66ffcc",
+            "#66ffcc"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 1309,
+        "y": 511,
+        "wires": []
+    },
+    {
+        "id": "6424b0a9.7b56b",
+        "type": "template",
+        "z": "35fbc8b4.903f18",
+        "name": "accX",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.accX}}",
+        "x": 572,
+        "y": 568,
+        "wires": [
+            [
+                "cc2a8b1d.04b3d8"
+            ]
+        ]
+    },
+    {
+        "id": "cd2e9d9e.aed24",
+        "type": "ui_gauge",
+        "z": "35fbc8b4.903f18",
+        "name": "",
+        "group": "aff4f966.e5f998",
+        "order": 0,
+        "width": "4",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Acceleration(Y)",
+        "label": "",
+        "format": "{{value  | number:4}}",
+        "min": "-3",
+        "max": "3",
+        "colors": [
+            "#66ffff",
+            "#66ffff",
+            "#66ffff"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 1288,
+        "y": 621,
+        "wires": []
+    },
+    {
+        "id": "a17d6b7.bff3e98",
+        "type": "template",
+        "z": "35fbc8b4.903f18",
+        "name": "accY",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.accY}}",
+        "x": 582,
+        "y": 637,
+        "wires": [
+            [
+                "760e72aa.10a7dc"
+            ]
+        ]
+    },
+    {
+        "id": "c8fa2510.ad8238",
+        "type": "ui_gauge",
+        "z": "35fbc8b4.903f18",
+        "name": "",
+        "group": "aff4f966.e5f998",
+        "order": 0,
+        "width": "4",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Acceleration(Z)",
+        "label": "",
+        "format": "{{value  | number:4}}",
+        "min": "-3",
+        "max": "3",
+        "colors": [
+            "#66ccff",
+            "#66ccff",
+            "#66ccff"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 1299,
+        "y": 703,
+        "wires": []
+    },
+    {
+        "id": "623684c8.10dc4c",
+        "type": "template",
+        "z": "35fbc8b4.903f18",
+        "name": "accZ",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.accZ}}",
+        "x": 571,
+        "y": 699,
+        "wires": [
+            [
+                "2619ed27.72e642"
+            ]
+        ]
+    },
+    {
+        "id": "22a28656.57192a",
+        "type": "template",
+        "z": "35fbc8b4.903f18",
+        "name": "accMag",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.accMag}}",
+        "x": 568,
+        "y": 755,
+        "wires": [
+            [
+                "8174ad94.73e5e"
+            ]
+        ]
+    },
+    {
+        "id": "1944ffff.51528",
+        "type": "link out",
+        "z": "35fbc8b4.903f18",
+        "name": "no-sub-connection",
+        "links": [
+            "ea2cd535.507cb8"
+        ],
+        "x": 789,
+        "y": 311,
+        "wires": []
+    },
+    {
+        "id": "ea2cd535.507cb8",
+        "type": "link in",
+        "z": "35fbc8b4.903f18",
+        "name": "",
+        "links": [
+            "1944ffff.51528"
+        ],
+        "x": 247,
+        "y": 661,
+        "wires": [
+            [
+                "6424b0a9.7b56b",
+                "a17d6b7.bff3e98",
+                "623684c8.10dc4c",
+                "22a28656.57192a"
+            ]
+        ]
+    },
+    {
+        "id": "27ffd5a.0152f2a",
+        "type": "ui_chart",
+        "z": "35fbc8b4.903f18",
+        "name": "",
+        "group": "aff4f966.e5f998",
+        "order": 0,
+        "width": "12",
+        "height": "4",
+        "label": "Magnitude of Vibration",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "Magnitude of Vibration",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "2",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#ff0000",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "x": 1346,
+        "y": 806,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "cc2a8b1d.04b3d8",
+        "type": "change",
+        "z": "35fbc8b4.903f18",
+        "name": "topic accX",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "accX",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 792,
+        "y": 561,
+        "wires": [
+            [
+                "57117a0b.4aa234"
+            ]
+        ]
+    },
+    {
+        "id": "760e72aa.10a7dc",
+        "type": "change",
+        "z": "35fbc8b4.903f18",
+        "name": "topic accY",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "accY",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 786,
+        "y": 633,
+        "wires": [
+            [
+                "16790699.23ad99"
+            ]
+        ]
+    },
+    {
+        "id": "2619ed27.72e642",
+        "type": "change",
+        "z": "35fbc8b4.903f18",
+        "name": "topic accZ",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "accZ",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 791,
+        "y": 699,
+        "wires": [
+            [
+                "c3eadf8c.02f8a"
+            ]
+        ]
+    },
+    {
+        "id": "8174ad94.73e5e",
+        "type": "change",
+        "z": "35fbc8b4.903f18",
+        "name": "topic accMag",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "accMag",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 785,
+        "y": 772,
+        "wires": [
+            [
+                "8cfba2d3.f488a"
+            ]
+        ]
+    },
+    {
+        "id": "8cfba2d3.f488a",
+        "type": "delay",
+        "z": "35fbc8b4.903f18",
+        "name": "",
+        "pauseType": "queue",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "10",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1050,
+        "y": 800,
+        "wires": [
+            [
+                "27ffd5a.0152f2a"
+            ]
+        ]
+    },
+    {
+        "id": "c3eadf8c.02f8a",
+        "type": "delay",
+        "z": "35fbc8b4.903f18",
+        "name": "",
+        "pauseType": "queue",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "10",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1048,
+        "y": 701,
+        "wires": [
+            [
+                "c8fa2510.ad8238"
+            ]
+        ]
+    },
+    {
+        "id": "16790699.23ad99",
+        "type": "delay",
+        "z": "35fbc8b4.903f18",
+        "name": "",
+        "pauseType": "queue",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "10",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1050,
+        "y": 626,
+        "wires": [
+            [
+                "cd2e9d9e.aed24"
+            ]
+        ]
+    },
+    {
+        "id": "57117a0b.4aa234",
+        "type": "delay",
+        "z": "35fbc8b4.903f18",
+        "name": "",
+        "pauseType": "queue",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "10",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1070,
+        "y": 526,
+        "wires": [
+            [
+                "d82a504d.ea54e"
+            ]
+        ]
+    },
+    {
+        "id": "6b36a6bd.02d948",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/ws/bledata",
+        "wholemsg": "false"
+    },
+    {
+        "id": "188164df.59b95b",
+        "type": "redis-config",
+        "z": "",
+        "host": "192.168.188.226",
+        "port": "32768",
+        "dbase": "0",
+        "pass": ""
+    },
+    {
+        "id": "aff4f966.e5f998",
+        "type": "ui_group",
+        "z": "",
+        "name": "Data Viewer",
+        "tab": "473a0172.26c75",
+        "disp": true,
+        "width": "12"
+    },
+    {
+        "id": "473a0172.26c75",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Fourious Movements",
+        "icon": "dashboard"
+    }
+]
