@@ -23,7 +23,7 @@ The **central device communicates with peripherals through advertising packages*
 
 * Simple Explaination of BLE and GATT - https://www.codeproject.com/Articles/1156242/Arduino-Bluetooth-Low-Energy
 
-![Central and Peripheral Devices](https://www.codeproject.com/KB/showcase/1156242/central-and-peripheral-device-communication..png)
+![Central and Peripheral Devices](https://www.codeproject.com/KB/showcase/1156242/central-and-peripheral-device-communication.png)
 
 * Specifications - https://www.bluetooth.com/specifications/protocol-specifications
 * Bluetooth LE to RPi wiki - http://www.elinux.org/RPi_Bluetooth_LE
@@ -36,7 +36,9 @@ The **central device communicates with peripherals through advertising packages*
 
 ### Node-Red pipeline
 
-![Node-Red pipeline](https://github.com/t04glovern/intel-101-hackathon/blob/master/node-red/data-flow.png?raw=true)
+![Node-Red pipeline](https://github.com/t04glovern/intel-101-hackathon/blob/master/node-red/data-flow-01.png?raw=true)
+
+![Node-Red Dashboad](https://github.com/t04glovern/intel-101-hackathon/blob/master/node-red/data-flow-02.png?raw=true)
 
 ## General
 
@@ -76,7 +78,7 @@ Creating a neural network to analyze this data is less than desirable
 * These neural networks would likely be specific to the region that the sensor is applied (an arm seizure would have different characteristics to a leg seizures).
 * In order for this model to be generalized, data would be required from multiple patients, a time consuming effort.
 
-### Characterize high changes in magnitude as seizure events 
+### Characterize high changes in magnitude as seizure events
 
 This would also be undesirable for three main reasons
 
@@ -97,7 +99,7 @@ And apply a Fast Fourier Transform (FFT) which takes this discrete signal and tr
 
 ![img](https://au.mathworks.com/help/examples/matlab/win64/FFTOfNoisySignalExample_02.png)
 
-Which shows that there are two signals in there: one at 50Hz and one at ~125Hz. 
+Which shows that there are two signals in there: one at 50Hz and one at ~125Hz.
 
 We will be applying this principle for our acceleration data, but will be looking for spikes in the 1-10Hz range, which we know is approximately the frequency that a seizure will occur at (try to shake your hand faster than 10 times per second).
 
