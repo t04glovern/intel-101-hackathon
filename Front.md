@@ -38,11 +38,11 @@ While it was a very small part of the overall project, the Fourier Transform ([n
 
 [The Fourier Transform is the single most amazing piece of math ever invented (Hence the name of the entry).](https://github.com/t04glovern/intel-101-hackathon#use-fourier-transforms) Using a (Fast) Fourier Transform on our accelerometer data solved so many problems that we were initially encountering with false positives, by constraining what we were actually analyzing to those frequencies which spasms actually occurred at.
 
-We also learnt the capabilities of what BLE could actually do. Initially we assumed that it was just Serial over Bluetooth, but upon delving into the BLE documentation, we discovered how useful GATT is.
+Initially we assumed that bluetooth was just a wireless way of transmitting serial data. After being forced by this competition to look at the BLE whitepaper and some guides, we learnt the capabilities of BLE and how useful GATT is.
 
-We also learnt how to stream data from an Arduino to Unity3D and display data on a ragdoll model to emphasize what was happening in the context of a human-like analog.
+Learning how to stream data from an Arduino to Unity3D and displaying it on a ragdoll model to emphasise what is happening in a human like context was really interesting.
 
-We also learnt that while it was possible to do sensor fusion by differentiating the output of the gyroscope and adding it to the accelerometer with different weightings for both, we discovered that the noise added to the signal in doing this makes it virtually unusable, so while in theory sensor fusion can alleviate some of the problems related to sensor drift and noise, in this case it's a very bad idea.
+We also learnt that while it was mathematically possible to do sensor fusion by differentiating the output of the gyroscope and adding it to the accelerometer with different weightings for both, we discovered that the noise added to the signal in doing this makes it virtually unusable, so while in theory sensor fusion can alleviate some of the problems related to sensor drift and noise, differentiating a signal on such a small timescale is a very very bad idea.
 
 ## What's next for Fourious Movements
 
