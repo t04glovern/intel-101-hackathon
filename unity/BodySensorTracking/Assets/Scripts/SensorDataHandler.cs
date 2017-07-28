@@ -12,6 +12,9 @@ public class SensorDataHandler : MonoBehaviour
 
     public SensorHandler selected;
 
+    public float min = 1.0f;
+    public float max = 1.8f;
+
     public Queue<SensorData> sensorDataQueue1;
     public Queue<SensorData> sensorDataQueue2;
     public Queue<SensorData> sensorDataQueue3;
@@ -31,6 +34,7 @@ public class SensorDataHandler : MonoBehaviour
         sensorDataQueue2 = new Queue<SensorData>();
         sensorDataQueue3 = new Queue<SensorData>();
         sensorDataQueue4 = new Queue<SensorData>();
+
         GetData();
 
         InvokeRepeating("GetData", 1.0f, 0.05f);
@@ -68,8 +72,14 @@ public class SensorDataHandler : MonoBehaviour
                 sensorData.accX = Convert.ToSingle(json["accX"].Number);
                 sensorData.accY = Convert.ToSingle(json["accY"].Number);
                 sensorData.accZ = Convert.ToSingle(json["accZ"].Number);
-                sensorData.currentMag = Convert.ToSingle(json["accMag"].Number);
-                sensorData.currentMag = (sensorData.currentMag - 0.0f) / (3.0f - 0.0f);
+                sensorData.accMag = Convert.ToSingle(json["accMag"].Number);
+
+                // Scale
+                sensorData.accMag = (sensorData.accMag - min) / (max - min);
+
+				sensorData.gyroX = Convert.ToSingle(json["gyroX"].Number);
+				sensorData.gyroY = Convert.ToSingle(json["gyroY"].Number);
+				sensorData.gyroZ = Convert.ToSingle(json["gyroZ"].Number);
 
                 // Adds data to queue
                 SetSensorData(sensorData);

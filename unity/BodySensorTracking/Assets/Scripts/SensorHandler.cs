@@ -15,7 +15,8 @@ public class SensorHandler : MonoBehaviour {
 
     public Text panelHeadingText;
     public Text timestampText;
-    public Text averageRatingText;
+    public Text currentIntensityText;
+    public Text accValueText;
 
 	// Use this for initialization
 	void Start () {
@@ -27,26 +28,31 @@ public class SensorHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (sensorData != null) {
-            rend.material.color = Color.Lerp(colorStart, colorEnd, sensorData.currentMag);
-            UpdateTextFields();
-            sensorData = null;
-        } else {
-            sensorData = sensorDataHandler.GetSensorItem(sensor_name);
-        }
+		if (sensorData != null)
+		{
+			rend.material.color = Color.Lerp(colorStart, colorEnd, sensorData.accMag);
+			UpdateTextFields();
+			sensorData = null;
+		}
+		else
+		{
+			sensorData = sensorDataHandler.GetSensorItem(sensor_name);
+		}
 	}
 
     // Handles the clicking of the sensor
 	void OnMouseDown() {
         sensorInfo.gameObject.SetActive(!sensorInfo.gameObject.activeInHierarchy);
-        if (sensorData != null) {
+        if (sensorData != null && sensorInfo.gameObject.activeInHierarchy) {
             UpdateTextFields();
+        } else {
+            sensorDataHandler.selected = null;
         }
 	}
 
     void UpdateTextFields() {
         if (sensorInfo.gameObject.activeInHierarchy) {
-            sensorInfo.text = sensorData.sensorName + "\nRating: " + sensorData.currentMag.ToString();
+            sensorInfo.text = sensorData.sensorName + "\nIntensity: " + sensorData.accMag.ToString("F3");
             if (sensorDataHandler.selected == null) {
                 sensorDataHandler.selected = this;
             }
@@ -54,13 +60,15 @@ public class SensorHandler : MonoBehaviour {
             {
 				panelHeadingText.text = sensorData.sensorName + " Sensor";
 				timestampText.text = sensorData.timestamp;
-				averageRatingText.text = sensorData.currentMag.ToString();
+				currentIntensityText.text = sensorData.accMag.ToString("F3");
+                accValueText.text = ("(" + sensorData.accX.ToString("F3") + "," + sensorData.accY.ToString("F3") + "," + sensorData.accZ.ToString("F3") + ")");
             }
         } else {
             if (sensorDataHandler.selected == null) {
-				panelHeadingText.text = "";
+				panelHeadingText.text = "Select a sensor for more information!";
 				timestampText.text = "-";
-				averageRatingText.text = "-";
+				currentIntensityText.text = "-";
+                accValueText.text = "(-,-,-)";
 				sensorInfo.text = "";
             }
         }

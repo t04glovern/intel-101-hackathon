@@ -71,14 +71,6 @@ void setup() {
   // Set the accelerometer range to 250 degrees/second
   CurieIMU.setGyroRange(250);
 
-  CurieIMU.autoCalibrateGyroOffset();
-  CurieIMU.autoCalibrateAccelerometerOffset(X_AXIS, 0);
-  CurieIMU.autoCalibrateAccelerometerOffset(Y_AXIS, 0);
-  CurieIMU.autoCalibrateAccelerometerOffset(Z_AXIS, 1);
-
-  // Delay for IMU calibration
-  delay(1000);
-
   blePeripheral.setLocalName("arduino-hub");
   blePeripheral.setAdvertisedServiceUuid(imuService.uuid());  // add the service UUID
   blePeripheral.addAttribute(imuService);
