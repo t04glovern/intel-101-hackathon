@@ -37,7 +37,7 @@ arduinoService = dev.getServiceByUUID(arduinoDevice)
 
 # Arduino 101 Accelerometer & Gyroscope Characteristics
 imuAccUUID = btle.UUID("917649A1-D98E-11E5-9EEC-0002A5D5C51B")
-#imuGyroUUID = btle.UUID("917649A2-D98E-11E5-9EEC-0002A5D5C51B")
+imuGyroUUID = btle.UUID("917649A2-D98E-11E5-9EEC-0002A5D5C51B")
 
 ''' 
 Data for the two characteristics are stored like this
@@ -59,30 +59,26 @@ union
 # Accelerometer & Gyroscope Characteristic mapping
 # Index zero denotes the float field in each union
 arduinoAccValue = arduinoService.getCharacteristics(imuAccUUID)[0]
-#arduinoGyroValue = arduinoService.getCharacteristics(imuGyroUUID)[0]
+arduinoGyroValue = arduinoService.getCharacteristics(imuGyroUUID)[0]
 
 while (1):
 	time.sleep(0.05)
 	accVal = arduinoAccValue.read()
-	#gyroVal = arduinoGyroValue.read()
+	gyroVal = arduinoGyroValue.read()
 
 	# Unpack the float arrays
 	accVal_unpacked = struct.unpack('3f', accVal)
-	#gyroVal_unpacked = struct.unpack('3f', gyroVal)		
+	gyroVal_unpacked = struct.unpack('3f', gyroVal)		
 
 	# Save variables
 	accX, accY, accZ = accVal_unpacked
-	#gyroX, gyroY, gyroZ = gyroVal_unpacked
+	gyroX, gyroY, gyroZ = gyroVal_unpacked
 
 	# Normalize
 	accMag = large_magnitude(accX, accY, accZ)
-	#gyroMag = large_magnitude(gyroVal_unpacked)
 
-	# Output Values
-	#print "aX: {}\t\taY: {}\t\taZ: {}\t\tMag: {}".format(accX, accY, accZ, accMag)
-	#print "gX: {}\t\tgY: {}\t\tgZ: {}\t\tMag: {}".format(gyroX, gyroY, gyroZ, np.linalg.norm(gyroNorm))
-
+	# Testing by sending random limbs
 	options = ["right-arm", "left-arm", "right-leg", "left-leg"]
-	data = { "sensorName" : "left-arm", "timestamp" : str(datetime.utcnow()), "accX" : accX, "accY" : accY, "accZ" : accZ, "accMag" : accMag }
+	data = { "sensorName" : random.choice(options), "timestamp" : str(datetime.utcnow()), "accX" : accX, "accY" : accY, "accZ" : accZ, "accMag" : accMag, "gyroX" : gyroX, "gyroY" : gyroY, "gyroZ" : gyroZ }
 	json_data = json.dumps(data)
 	send_ws_message(json_data)
