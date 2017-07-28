@@ -71,6 +71,14 @@ void setup() {
   // Set the accelerometer range to 250 degrees/second
   CurieIMU.setGyroRange(250);
 
+  CurieIMU.autoCalibrateGyroOffset();
+  CurieIMU.autoCalibrateAccelerometerOffset(X_AXIS, 0);
+  CurieIMU.autoCalibrateAccelerometerOffset(Y_AXIS, 0);
+  CurieIMU.autoCalibrateAccelerometerOffset(Z_AXIS, 1);
+
+  // Delay for IMU calibration
+  delay(1000);
+
   blePeripheral.setLocalName("arduino-hub");
   blePeripheral.setAdvertisedServiceUuid(imuService.uuid());  // add the service UUID
   blePeripheral.addAttribute(imuService);
@@ -130,14 +138,6 @@ void loop() {
       gyroData.g[0] = convertRawGyro(gxRaw);
       gyroData.g[1] = convertRawGyro(gyRaw);
       gyroData.g[2] = convertRawGyro(gzRaw);
-
-
-      // These statements are for debugging puposes only and can be commented out to increae the efficiency of the sketch.
-      //Serial.print( "(ax,ay,az): " );
-      //Serial.print("("); Serial.print(accData.a[0]); Serial.print(","); Serial.print(accData.a[1]); Serial.print(","); Serial.print(accData.a[2]); Serial.print(")"); Serial.println();
-      //Serial.print( "(gx,gy,gz): " );
-      //Serial.print("("); Serial.print(gyroData.g[0]); Serial.print(","); Serial.print(gyroData.g[1]); Serial.print(","); Serial.print(gyroData.g[2]); Serial.print(")"); Serial.println();
-
 
 
       /**
