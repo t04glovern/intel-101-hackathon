@@ -34,11 +34,15 @@ The **central device communicates with peripherals through advertising packages*
 
 ## Communication Diagrams
 
-### Node-Red pipeline
+### Node-Red Flows
 
-![Node-Red pipeline](https://github.com/t04glovern/intel-101-hackathon/blob/master/node-red/data-flow-01.png?raw=true)
+![Node-Red Flow Main Pipeline](https://github.com/t04glovern/intel-101-hackathon/blob/master/node-red/data-flow-01.png?raw=true)
 
-![Node-Red Dashboad](https://github.com/t04glovern/intel-101-hackathon/blob/master/node-red/data-flow-02.png?raw=true)
+![Node-Red Flow Dashboard](https://github.com/t04glovern/intel-101-hackathon/blob/master/node-red/data-flow-02.png?raw=true)
+
+### Node-Red Dashboard
+
+![Node-Red Dashboard](https://github.com/t04glovern/intel-101-hackathon/blob/master/node-red/data-flow-03.png?raw=true)
 
 ## General
 
