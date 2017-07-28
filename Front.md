@@ -23,13 +23,14 @@ We had problems with figuring out how to detect when a seizure/spasm event had t
 
 Bluetooth communication was something that neither of us had too much experience with was a major hurdle at the start. This was especially problematic with the AT-09 BLE device that the peripheral device had. Overall, there was enough information online to assist us in understanding BLE, and the particularly impressive GATT protocol.
 
-
+One challenge that was a massive source of frustration came about when debugging something in the Arduino IDE. An if statement was being passed over when it shouldn't have, and neither of us could figure out why. It turns out that there is this odd "feature" of the Arduino IDE that there's no warning about errant semicolons, leading to this being something that compiles without an error.
 
 ## Accomplishments that we're proud of
+We're both proud that we managed to get a working product out in 8 days while having other work related commitments. 
 
-We're proud that we managed to get a working product in 8 days while having other work related commitments.
+The entire Node Red control flow and dashboard was a significant source of pride, as it was the first time trying it out, with it being significantly more flexible and faster to get up and running than methods used in previous hackathons - this was a big advantage given the time constraints imposed on us.
 
-M
+While it was a very small part of the overall project, the Fourier Transform was a source of pride - partly because Mechanical Engineering students seldom get the opportunity to explain to people why Fourier Transforms are so cool, and partly because people don't normally listen to those sorts of explanations. Being able to eliminate so many problems by applying some advanced math instead of the alternate methods of chaining if statements or creating a neural net and spending a very long time training it is really exciting.
 
 
 
