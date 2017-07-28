@@ -12,6 +12,7 @@ We designed a small self powered peripheral device using an Arduino Nano to conn
 
 This central station has been designed to take the input from multiple peripheral sensors and stream them to a Raspberry Pi, which is used to create a presentation layer for all of the data obtained. The presentation layer consists of a Unity3D scene with some custom scripts to display what's happening in real time to a ragdoll human analog, as well as a NodeRed server which is used to log the data into a database, and present the real-time and historical data using a custom web dashboard.
 
+![img](https://images-ext-2.discordapp.net/external/s9vILzwnoXe6BOEglz67Jc5twEUWbOc54hij-zJt9tM/https/puu.sh/wVibl/14fc51c58c.png?width=834&height=633)
 
 
 ## Challenges we ran into
