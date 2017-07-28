@@ -30,7 +30,7 @@ We're both proud that we managed to get a working product out in 8 days while ha
 
 The entire Node Red control flow and dashboard was a significant source of pride, as it was the first time trying it out, with it being significantly more flexible and faster to get up and running than methods used in previous hackathons - this was a big advantage given the time constraints imposed on us.
 
-While it was a very small part of the overall project, the Fourier Transform was a source of pride - partly because Mechanical Engineering students seldom get the opportunity to explain to people why Fourier Transforms are so cool, and partly because people don't normally listen to those sorts of explanations. Being able to eliminate so many problems by applying some advanced math instead of the alternate methods of chaining if statements or creating a neural net and spending a very long time training it is really exciting.
+While it was a very small part of the overall project, the Fourier Transform was a source of pride - partly because mechanical engineering students seldom get the opportunity to explain to people why Fourier Transforms are so cool, and partly because people don't normally listen to those sorts of explanations. Being able to eliminate so many problems by applying some advanced math instead of the alternate methods of chaining if statements or creating a neural net and spending a very long time training it is really exciting.
 
 
 
