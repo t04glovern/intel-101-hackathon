@@ -1,5 +1,146 @@
 [
     {
+        "id": "35fbc8b4.903f18",
+        "type": "tab",
+        "label": "BLEData-Flow"
+    },
+    {
+        "id": "3501a493.721dcc",
+        "type": "tab",
+        "label": "NodeRed-Dashboard"
+    },
+    {
+        "id": "6b36a6bd.02d948",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/ws/bledata",
+        "wholemsg": "false"
+    },
+    {
+        "id": "188164df.59b95b",
+        "type": "redis-config",
+        "z": "",
+        "host": "192.168.188.226",
+        "port": "32768",
+        "dbase": "0",
+        "pass": ""
+    },
+    {
+        "id": "32b13ed2.4aab22",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-custom",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "IntelTheme",
+                "default": "#4B7930",
+                "baseColor": "#0092ff",
+                "baseFont": "Tahoma,Geneva,sans-serif",
+                "reset": false
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#4B7930",
+                    "value": "#4B7930",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0071c8",
+                    "edited": true
+                },
+                "page-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": true
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#0092ff",
+                    "edited": true
+                },
+                "group-textColor": {
+                    "value": "#ffffff",
+                    "edited": true
+                },
+                "group-borderColor": {
+                    "value": "#0071ca",
+                    "edited": true
+                },
+                "group-backgroundColor": {
+                    "value": "#0071cc",
+                    "edited": true
+                },
+                "widget-textColor": {
+                    "value": "#0071ca",
+                    "edited": true
+                },
+                "widget-backgroundColor": {
+                    "value": "#0092ff",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "Tahoma,Geneva,sans-serif"
+                }
+            }
+        },
+        "site": {
+            "name": "Fourious Movements - Intel Hacks (2017)",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 10,
+                "gy": 10,
+                "cx": 4,
+                "cy": 4,
+                "px": 4,
+                "py": 4
+            }
+        }
+    },
+    {
+        "id": "473a0172.26c75",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Fourious Movements",
+        "icon": "dashboard"
+    },
+    {
+        "id": "aff4f966.e5f998",
+        "type": "ui_group",
+        "z": "",
+        "name": "Acceleration Data",
+        "tab": "473a0172.26c75",
+        "disp": true,
+        "width": "12"
+    },
+    {
+        "id": "5e3977e2.ec7408",
+        "type": "ui_group",
+        "z": "",
+        "name": "Magnitude Data",
+        "tab": "473a0172.26c75",
+        "order": 2,
+        "disp": true,
+        "width": "12"
+    },
+    {
         "id": "bba07753.e8a308",
         "type": "websocket in",
         "z": "35fbc8b4.903f18",
@@ -23,8 +164,8 @@
         "name": "blejsonredis-sub",
         "topic": "blejsonredis",
         "timeout": 0,
-        "x": 135,
-        "y": 231,
+        "x": 243.33334350585938,
+        "y": 191.44445657730103,
         "wires": [
             [
                 "e4416ca3.e3a5"
@@ -39,8 +180,8 @@
         "url": "/api/bledata",
         "method": "get",
         "swaggerDoc": "",
-        "x": 239,
-        "y": 403,
+        "x": 215.77776336669922,
+        "y": 314.77778828144073,
         "wires": [
             [
                 "e4416ca3.e3a5"
@@ -52,8 +193,8 @@
         "type": "http response",
         "z": "35fbc8b4.903f18",
         "name": "http response",
-        "x": 629,
-        "y": 389,
+        "x": 653.2222175598145,
+        "y": 314.4444589614868,
         "wires": []
     },
     {
@@ -64,8 +205,8 @@
         "func": "if (msg.topic == \"blejsonredis\") {\n    var json_result = JSON.parse(msg.payload);\n    context.v = json_result;\n    msg.payload = context.v;\n    return [msg,null];\n} else {\n    msg.payload = context.v;\n    return [null,msg];\n}",
         "outputs": "2",
         "noerr": 0,
-        "x": 442,
-        "y": 311,
+        "x": 433.44443130493164,
+        "y": 257.6666717529297,
         "wires": [
             [
                 "1944ffff.51528"
@@ -83,159 +224,9 @@
         "command": "publish",
         "name": "blejsonredis-pub",
         "topic": "blejsonredis",
-        "x": 547,
-        "y": 157,
+        "x": 530.3333587646484,
+        "y": 79.2222261428833,
         "wires": []
-    },
-    {
-        "id": "d82a504d.ea54e",
-        "type": "ui_gauge",
-        "z": "35fbc8b4.903f18",
-        "name": "",
-        "group": "aff4f966.e5f998",
-        "order": 0,
-        "width": "4",
-        "height": "4",
-        "gtype": "gage",
-        "title": "Acceleration(X)",
-        "label": "",
-        "format": "{{value  | number:4}}",
-        "min": "-3",
-        "max": "3",
-        "colors": [
-            "#66ffcc",
-            "#66ffcc",
-            "#66ffcc"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "x": 1309,
-        "y": 511,
-        "wires": []
-    },
-    {
-        "id": "6424b0a9.7b56b",
-        "type": "template",
-        "z": "35fbc8b4.903f18",
-        "name": "accX",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "{{payload.accX}}",
-        "x": 572,
-        "y": 568,
-        "wires": [
-            [
-                "cc2a8b1d.04b3d8"
-            ]
-        ]
-    },
-    {
-        "id": "cd2e9d9e.aed24",
-        "type": "ui_gauge",
-        "z": "35fbc8b4.903f18",
-        "name": "",
-        "group": "aff4f966.e5f998",
-        "order": 0,
-        "width": "4",
-        "height": "4",
-        "gtype": "gage",
-        "title": "Acceleration(Y)",
-        "label": "",
-        "format": "{{value  | number:4}}",
-        "min": "-3",
-        "max": "3",
-        "colors": [
-            "#66ffff",
-            "#66ffff",
-            "#66ffff"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "x": 1288,
-        "y": 621,
-        "wires": []
-    },
-    {
-        "id": "a17d6b7.bff3e98",
-        "type": "template",
-        "z": "35fbc8b4.903f18",
-        "name": "accY",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "{{payload.accY}}",
-        "x": 582,
-        "y": 637,
-        "wires": [
-            [
-                "760e72aa.10a7dc"
-            ]
-        ]
-    },
-    {
-        "id": "c8fa2510.ad8238",
-        "type": "ui_gauge",
-        "z": "35fbc8b4.903f18",
-        "name": "",
-        "group": "aff4f966.e5f998",
-        "order": 0,
-        "width": "4",
-        "height": "4",
-        "gtype": "gage",
-        "title": "Acceleration(Z)",
-        "label": "",
-        "format": "{{value  | number:4}}",
-        "min": "-3",
-        "max": "3",
-        "colors": [
-            "#66ccff",
-            "#66ccff",
-            "#66ccff"
-        ],
-        "seg1": "",
-        "seg2": "",
-        "x": 1299,
-        "y": 703,
-        "wires": []
-    },
-    {
-        "id": "623684c8.10dc4c",
-        "type": "template",
-        "z": "35fbc8b4.903f18",
-        "name": "accZ",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "{{payload.accZ}}",
-        "x": 571,
-        "y": 699,
-        "wires": [
-            [
-                "2619ed27.72e642"
-            ]
-        ]
-    },
-    {
-        "id": "22a28656.57192a",
-        "type": "template",
-        "z": "35fbc8b4.903f18",
-        "name": "accMag",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "{{payload.accMag}}",
-        "x": 568,
-        "y": 755,
-        "wires": [
-            [
-                "8174ad94.73e5e"
-            ]
-        ]
     },
     {
         "id": "1944ffff.51528",
@@ -243,76 +234,186 @@
         "z": "35fbc8b4.903f18",
         "name": "no-sub-connection",
         "links": [
-            "ea2cd535.507cb8"
+            "ea2cd535.507cb8",
+            "7007bffe.8633f"
         ],
-        "x": 789,
-        "y": 311,
+        "x": 615.1111145019531,
+        "y": 172.77776956558228,
         "wires": []
     },
     {
-        "id": "ea2cd535.507cb8",
-        "type": "link in",
-        "z": "35fbc8b4.903f18",
+        "id": "4e7d5d4.acbe0a4",
+        "type": "ui_gauge",
+        "z": "3501a493.721dcc",
         "name": "",
-        "links": [
-            "1944ffff.51528"
+        "group": "aff4f966.e5f998",
+        "order": 1,
+        "width": "4",
+        "height": "3",
+        "gtype": "gage",
+        "title": "X",
+        "label": "",
+        "format": "{{value  | number:4}}",
+        "min": "-3",
+        "max": "3",
+        "colors": [
+            "#0092ff",
+            "#0092ff",
+            "#0092ff"
         ],
-        "x": 247,
-        "y": 661,
+        "seg1": "",
+        "seg2": "",
+        "x": 1075.7102355957031,
+        "y": 130.37698650360107,
+        "wires": []
+    },
+    {
+        "id": "11e86f77.dd0451",
+        "type": "template",
+        "z": "3501a493.721dcc",
+        "name": "accX",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.accX}}",
+        "x": 562.3610572814941,
+        "y": 129.91667652130127,
         "wires": [
             [
-                "6424b0a9.7b56b",
-                "a17d6b7.bff3e98",
-                "623684c8.10dc4c",
-                "22a28656.57192a"
+                "eadea3d9.e89a"
             ]
         ]
     },
     {
-        "id": "27ffd5a.0152f2a",
-        "type": "ui_chart",
-        "z": "35fbc8b4.903f18",
+        "id": "5d29aaa8.523234",
+        "type": "ui_gauge",
+        "z": "3501a493.721dcc",
         "name": "",
         "group": "aff4f966.e5f998",
-        "order": 0,
-        "width": "12",
-        "height": "4",
-        "label": "Magnitude of Vibration",
-        "chartType": "line",
-        "legend": "true",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "Magnitude of Vibration",
-        "dot": false,
-        "ymin": "0",
-        "ymax": "2",
-        "removeOlder": "1",
-        "removeOlderPoints": "",
-        "removeOlderUnit": "3600",
-        "cutout": 0,
-        "useOneColor": false,
+        "order": 2,
+        "width": "4",
+        "height": "3",
+        "gtype": "gage",
+        "title": "Y",
+        "label": "",
+        "format": "{{value  | number:4}}",
+        "min": "-3",
+        "max": "3",
         "colors": [
-            "#ff0000",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
+            "#0092ff",
+            "#0092ff",
+            "#0092ff"
         ],
-        "x": 1346,
-        "y": 806,
+        "seg1": "",
+        "seg2": "",
+        "x": 1076.1388092041016,
+        "y": 177.83730506896973,
+        "wires": []
+    },
+    {
+        "id": "71a0df47.4574c",
+        "type": "template",
+        "z": "3501a493.721dcc",
+        "name": "accY",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.accY}}",
+        "x": 559.6626663208008,
+        "y": 175.7420506477356,
         "wires": [
-            [],
-            []
+            [
+                "110a6515.c70b7b"
+            ]
         ]
     },
     {
-        "id": "cc2a8b1d.04b3d8",
+        "id": "55f2298b.cf2718",
+        "type": "ui_gauge",
+        "z": "3501a493.721dcc",
+        "name": "",
+        "group": "aff4f966.e5f998",
+        "order": 3,
+        "width": "4",
+        "height": "3",
+        "gtype": "gage",
+        "title": "Z",
+        "label": "",
+        "format": "{{value  | number:4}}",
+        "min": "-3",
+        "max": "3",
+        "colors": [
+            "#0092ff",
+            "#0092ff",
+            "#0092ff"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 1075.2341537475586,
+        "y": 223.8055715560913,
+        "wires": []
+    },
+    {
+        "id": "44669f45.8336",
+        "type": "template",
+        "z": "3501a493.721dcc",
+        "name": "accZ",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.accZ}}",
+        "x": 556.7579002380371,
+        "y": 221.39286637306213,
+        "wires": [
+            [
+                "b92ccd1d.5846b"
+            ]
+        ]
+    },
+    {
+        "id": "b7e40575.cbefa8",
+        "type": "template",
+        "z": "3501a493.721dcc",
+        "name": "accMag",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.accMag}}",
+        "x": 565.1864891052246,
+        "y": 263.7421236038208,
+        "wires": [
+            [
+                "7fb2a770.7dbcf8"
+            ]
+        ]
+    },
+    {
+        "id": "7007bffe.8633f",
+        "type": "link in",
+        "z": "3501a493.721dcc",
+        "name": "",
+        "links": [
+            "1944ffff.51528"
+        ],
+        "x": 393.47216033935547,
+        "y": 195.25000095367432,
+        "wires": [
+            [
+                "11e86f77.dd0451",
+                "71a0df47.4574c",
+                "44669f45.8336",
+                "b7e40575.cbefa8"
+            ]
+        ]
+    },
+    {
+        "id": "eadea3d9.e89a",
         "type": "change",
-        "z": "35fbc8b4.903f18",
+        "z": "3501a493.721dcc",
         "name": "topic accX",
         "rules": [
             {
@@ -328,18 +429,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 792,
-        "y": 561,
+        "x": 715.5356292724609,
+        "y": 130.21825456619263,
         "wires": [
             [
-                "57117a0b.4aa234"
+                "6d546d47.5a6774"
             ]
         ]
     },
     {
-        "id": "760e72aa.10a7dc",
+        "id": "110a6515.c70b7b",
         "type": "change",
-        "z": "35fbc8b4.903f18",
+        "z": "3501a493.721dcc",
         "name": "topic accY",
         "rules": [
             {
@@ -355,18 +456,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 786,
-        "y": 633,
+        "x": 715.8848342895508,
+        "y": 176.1865315437317,
         "wires": [
             [
-                "16790699.23ad99"
+                "89ef770b.c491f8"
             ]
         ]
     },
     {
-        "id": "2619ed27.72e642",
+        "id": "b92ccd1d.5846b",
         "type": "change",
-        "z": "35fbc8b4.903f18",
+        "z": "3501a493.721dcc",
         "name": "topic accZ",
         "rules": [
             {
@@ -382,18 +483,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 791,
-        "y": 699,
+        "x": 714.0594329833984,
+        "y": 221.7103500366211,
         "wires": [
             [
-                "c3eadf8c.02f8a"
+                "7c907139.b1896"
             ]
         ]
     },
     {
-        "id": "8174ad94.73e5e",
+        "id": "7fb2a770.7dbcf8",
         "type": "change",
-        "z": "35fbc8b4.903f18",
+        "z": "3501a493.721dcc",
         "name": "topic accMag",
         "rules": [
             {
@@ -409,18 +510,42 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 785,
-        "y": 772,
+        "x": 722.3452529907227,
+        "y": 263.59925079345703,
         "wires": [
             [
-                "8cfba2d3.f488a"
+                "7343e2b6.b854cc"
             ]
         ]
     },
     {
-        "id": "8cfba2d3.f488a",
+        "id": "7343e2b6.b854cc",
         "type": "delay",
-        "z": "35fbc8b4.903f18",
+        "z": "3501a493.721dcc",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "10",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "x": 895.5991058349609,
+        "y": 263.9801445007324,
+        "wires": [
+            [
+                "78d04af7.043384",
+                "44e386fe.3a34b8"
+            ]
+        ]
+    },
+    {
+        "id": "7c907139.b1896",
+        "type": "delay",
+        "z": "3501a493.721dcc",
         "name": "",
         "pauseType": "queue",
         "timeout": "5",
@@ -432,18 +557,18 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
-        "x": 1050,
-        "y": 800,
+        "x": 905.5039443969727,
+        "y": 223.0753870010376,
         "wires": [
             [
-                "27ffd5a.0152f2a"
+                "55f2298b.cf2718"
             ]
         ]
     },
     {
-        "id": "c3eadf8c.02f8a",
+        "id": "89ef770b.c491f8",
         "type": "delay",
-        "z": "35fbc8b4.903f18",
+        "z": "3501a493.721dcc",
         "name": "",
         "pauseType": "queue",
         "timeout": "5",
@@ -455,90 +580,143 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
-        "x": 1048,
-        "y": 701,
+        "x": 908.6150054931641,
+        "y": 177.1230297088623,
         "wires": [
             [
-                "c8fa2510.ad8238"
+                "5d29aaa8.523234"
             ]
         ]
     },
     {
-        "id": "16790699.23ad99",
+        "id": "6d546d47.5a6774",
         "type": "delay",
-        "z": "35fbc8b4.903f18",
+        "z": "3501a493.721dcc",
         "name": "",
         "pauseType": "queue",
         "timeout": "5",
         "timeoutUnits": "seconds",
-        "rate": "10",
-        "nbRateUnits": "5",
+        "rate": "1",
+        "nbRateUnits": "1",
         "rateUnits": "second",
         "randomFirst": "1",
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
-        "x": 1050,
-        "y": 626,
+        "x": 898.9324722290039,
+        "y": 129.98016262054443,
         "wires": [
             [
-                "cd2e9d9e.aed24"
+                "4e7d5d4.acbe0a4"
             ]
         ]
     },
     {
-        "id": "57117a0b.4aa234",
-        "type": "delay",
-        "z": "35fbc8b4.903f18",
+        "id": "32962e0d.56f912",
+        "type": "ui_toast",
+        "z": "3501a493.721dcc",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "topic": "",
         "name": "",
-        "pauseType": "queue",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "10",
-        "nbRateUnits": "5",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 1070,
-        "y": 526,
+        "x": 1363.333152770996,
+        "y": 290.0000638961792,
+        "wires": []
+    },
+    {
+        "id": "78d04af7.043384",
+        "type": "switch",
+        "z": "3501a493.721dcc",
+        "name": "CheckSpasm",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "1.9",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 1000.0001449584961,
+        "y": 312.2220821380615,
         "wires": [
             [
-                "d82a504d.ea54e"
+                "be60cee.577693"
             ]
         ]
     },
     {
-        "id": "6b36a6bd.02d948",
-        "type": "websocket-listener",
-        "z": "",
-        "path": "/ws/bledata",
-        "wholemsg": "false"
+        "id": "be60cee.577693",
+        "type": "change",
+        "z": "3501a493.721dcc",
+        "name": "topic notify",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Possible Spasm Detected",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1167.7778205871582,
+        "y": 314.4444122314453,
+        "wires": [
+            [
+                "32962e0d.56f912"
+            ]
+        ]
     },
     {
-        "id": "188164df.59b95b",
-        "type": "redis-config",
-        "z": "",
-        "host": "192.168.188.226",
-        "port": "32768",
-        "dbase": "0",
-        "pass": ""
-    },
-    {
-        "id": "aff4f966.e5f998",
-        "type": "ui_group",
-        "z": "",
-        "name": "Data Viewer",
-        "tab": "473a0172.26c75",
-        "disp": true,
-        "width": "12"
-    },
-    {
-        "id": "473a0172.26c75",
-        "type": "ui_tab",
-        "z": "",
-        "name": "Fourious Movements",
-        "icon": "dashboard"
+        "id": "44e386fe.3a34b8",
+        "type": "ui_chart",
+        "z": "3501a493.721dcc",
+        "name": "",
+        "group": "5e3977e2.ec7408",
+        "order": 1,
+        "width": "12",
+        "height": "5",
+        "label": "Magnitude of Vibration",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "2.5",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#ff7879",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "x": 1128.900650024414,
+        "y": 264.5833282470703,
+        "wires": [
+            [],
+            []
+        ]
     }
 ]
